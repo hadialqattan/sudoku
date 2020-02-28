@@ -1,3 +1,4 @@
+import threading
 import time
 
 # local import
@@ -13,45 +14,106 @@ class Solver:
 
     :param board: Sudoku Board class instance
     :type board: Board
-    :param speed: 1 / 1000 for 1 sec
-    :type speed: int
+    :param sleep: delay time 1/1000 secs
+    :type sleep: float
     """
 
-    def __init__(self, board: Board, speed: int):
-        self.board = board
-        self.sleep = speed / 1000
-        self.run = True
+    def __init__(self, board: Board, sleep: float):
+        self.__board = board
+        self.__sleep = sleep / 1000
+        self.__e = threading.Event()
+        self.__kill = True
+        self.__e.set()
 
-    def solve(self) -> bool:
+    @property
+    def board(self) -> Board:
+        """board property (getter)"""
+        return self.__board
+
+    @board.setter 
+    def board(self, board: Board):
+        """board property (setter)
+
+        :param board: Sudoku Board class instance
+        :type board: Board
+        """
+        if len(board) < 9 or len(board[0]) < 9: 
+            raise ("only 9*9 board accepted.")
+        self.__board = board
+
+    @property
+    def sleep(self) -> float:
+        """sleep property (getter)"""
+        return self.__sleep
+
+    @sleep.setter 
+    def sleep(self, sleep: float):
+        """sleep property (setter)
+        
+        :param sleep: delay time 1/1000 secs
+        :type sleep: float
+        """
+        sleep = 1000 if sleep > 1000 else sleep
+        sleep = 0 if sleep < 0 else sleep
+        self.__sleep = sleep / 1000
+
+    @property
+    def e(self):
+        """change threading.event state"""
+        if not self.__e.is_set():
+            self.__e.set()
+        else: 
+            self.__e.clear()
+
+    @property
+    def kill(self):
+        """stop solve function to join the thread"""
+        self.__kill = not self.__kill
+        if not self.__e.is_set():
+            self.__e.set()
+
+    def solve(self, change_state: bool = True) -> bool:
         """Solve Sudoku game board using backtracking algorithm
 
         :param board: Sudoku game board representation (two dimensional array)
         :type board: list
+        :param change_state: change board state (default = True)
+        :type change_state: bool
         :returns: True if the board solved else False for backtracking
         :rtype: bool
         """
-        if self.run:
+        if not self.__kill:
             # get the next unused position from (LTR, TTB)
-            pos = self.nextpos(self.board.board)
+            pos = self.nextpos(self.__board.board)
             # solved -edge
             if not pos:
                 return True
             # itertate over all possible numbers(0-9)
             for n in range(1, 10):
                 # check if the number valid in sudoku rules
-                if self.isvalid(self.board.board, n, pos):
+                if self.isvalid(self.__board.board, n, pos):
                     # set the number as solution
-                    self.board.set_value(n, (pos[0], pos[1]))
-                    self.board.board[pos[0]][pos[1]] = n
-                    time.sleep(self.sleep)
+                    if change_state:
+                        # pause/resumption
+                        self.__e.wait()
+                        # change board state
+                        self.__board.set_sq_value(n, (pos[0], pos[1]))
+                    self.__board.board[pos[0]][pos[1]] = n
+                    # sleep (solution case)
+                    time.sleep(self.__sleep)
                     # continue in the solution -edge
                     if self.solve():
                         return True
-                    # backtracking
-                    if self.run:
-                        self.board.set_value(0, (pos[0], pos[1]))
-                        self.board.board[pos[0]][pos[1]] = 0
-            time.sleep(self.sleep)
+                    if not self.__kill:
+                        # backtracking
+                        if change_state:
+                            # pause/resumption
+                            self.__e.wait()
+                            # change board state
+                            self.__board.set_sq_value(0, (pos[0], pos[1]))
+                        self.__board.board[pos[0]][pos[1]] = 0
+            # sleep (backtracking case)
+            time.sleep(self.__sleep)
             # invalid solution
             return False
 

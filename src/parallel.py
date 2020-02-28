@@ -1,12 +1,12 @@
-from threading import Thread, ThreadError
+from threading import Thread, ThreadError, Event
 
 
-class Threads:
+class Threads():
 
     """Threads management class"""
 
     def __init__(self):
-        self.threads = []
+        self.__threads = []
 
     def start(self, func, _args_: list = []) -> bool:
         """Create new thread and start it 
@@ -24,7 +24,7 @@ class Threads:
             # start the thread
             process.start()
             # append the thread to threads list
-            self.threads.append(process)
+            self.__threads.append(process)
             return True
         except (ThreadError, RuntimeError) as threadStartEX:
             try:
@@ -42,12 +42,12 @@ class Threads:
         :rtype: bool
         """
         try:
-            # iterate over self.threads list
-            for process in self.threads:
+            # iterate over self.__threads list
+            for process in self.__threads:
                 # stop the thread
-                process.join()
+                process.join(1)
             # clear the list
-            self.threads.clear()
+            self.__threads.clear()
             return True
         except (ThreadError, RuntimeError) as threadStopEX:
             print(f"Thread stop Error: {threadStopEX}")
