@@ -1,13 +1,13 @@
 import time
 
 # local import
-try: 
+try:
     from .models import Board
-except ImportError: 
+except ImportError:
     from models import Board
 
 
-class Solver: 
+class Solver:
 
     """Sudoku game solver using backtracking algorithm
 
@@ -17,7 +17,7 @@ class Solver:
     :type speed: int
     """
 
-    def __init__ (self, board: Board, speed: int): 
+    def __init__(self, board: Board, speed: int):
         self.board = board
         self.sleep = speed / 1000
         self.run = True
@@ -30,14 +30,14 @@ class Solver:
         :returns: True if the board solved else False for backtracking
         :rtype: bool
         """
-        if self.run: 
-            # get the next unused position from (LTR, TTB) 
+        if self.run:
+            # get the next unused position from (LTR, TTB)
             pos = self.nextpos(self.board.board)
             # solved -edge
-            if not pos: 
+            if not pos:
                 return True
             # itertate over all possible numbers(0-9)
-            for n in range(1, 10): 
+            for n in range(1, 10):
                 # check if the number valid in sudoku rules
                 if self.isvalid(self.board.board, n, pos):
                     # set the number as solution
@@ -55,7 +55,6 @@ class Solver:
             # invalid solution
             return False
 
-
     def nextpos(self, board: list) -> tuple:
         """Get the next unused position from Left2Right & Top2Bottom
 
@@ -70,10 +69,9 @@ class Solver:
             for c in range(9):
                 # check for unused position
                 if board[r][c] == 0:
-                    return(r, c)
+                    return (r, c)
         # end of Sudoku board after (9, 9) position (solved) -edge
         return ()
-
 
     def isvalid(self, board: list, n: int, rc: tuple) -> bool:
         """Sudoku game rules checker 
@@ -89,21 +87,21 @@ class Solver:
         """
         # check row rule
         # iterate over all columns
-        for c in range(len(board)): 
+        for c in range(len(board)):
             # check if the number exists in the same row
-            if board[rc[0]][c] == n: 
+            if board[rc[0]][c] == n:
                 return False
         # check column rule
         # iterate over all rows
-        for r in range(len(board)): 
+        for r in range(len(board)):
             # check if the number exists in the same column
             if board[r][rc[1]] == n:
                 return False
         # check 3*3 area rule
         #       row start pos | column start pos
-        spos = ((rc[0] // 3)*3, (rc[1] // 3)*3)
+        spos = ((rc[0] // 3) * 3, (rc[1] // 3) * 3)
         # (row) iterate over 3*3 area from spos[0] to spos[0] + 3
-        for r in range(spos[0], spos[0] + 3): 
+        for r in range(spos[0], spos[0] + 3):
             # (column) iterate over 3*3 area from spos[1] to spos[1] + 3
             for c in range(spos[1], spos[1] + 3):
                 # check if the number exists in the same 3*3 area

@@ -19,7 +19,12 @@ class Board:
         self.screen = screen
         # create squares list
         self.squares = [
-            [Square(self.board[c][r], (r, c), (self.size[0], self.size[2]), self.screen) for r in range(9)]
+            [
+                Square(
+                    self.board[c][r], (r, c), (self.size[0], self.size[2]), self.screen
+                )
+                for r in range(9)
+            ]
             for c in range(9)
         ]
 
@@ -38,11 +43,19 @@ class Board:
             w = 3 if r % 3 == 0 and r != 0 else 1
             # draw horizontal line (screen, (color), (start_pos), (end_pos), width)
             pygame.draw.line(
-                self.screen, (32, 194, 14), (self.size[2], r * space), (self.size[0] + self.size[2], r * space), w
+                self.screen,
+                (32, 194, 14),
+                (self.size[2], r * space),
+                (self.size[0] + self.size[2], r * space),
+                w,
             )
             # draw vertical line (screen, (color), (start_pos), (end_pos), width)
             pygame.draw.line(
-                self.screen, (32, 194, 14), (r * space + self.size[2], 0), (r * space + self.size[2], self.size[1]), w
+                self.screen,
+                (32, 194, 14),
+                (r * space + self.size[2], 0),
+                (r * space + self.size[2], self.size[1]),
+                w,
             )
         # Draw squares
         # iterate over all rows
@@ -95,7 +108,7 @@ class Square:
             )
 
 
-class LeftPanel: 
+class LeftPanel:
 
     """Left control panel 
 
@@ -109,11 +122,12 @@ class LeftPanel:
         self.size = size
         self.screen = screen
 
-    def draw(self): 
+    def draw(self):
         """Draw the left panel on the screen"""
         # Draw main frame
         # set frame lines width
         w = 3
         # draw rectangle
-        pygame.draw.rect(self.screen, (32, 194, 14), ((0, 0), (self.size[0], self.size[1])), w)
-
+        pygame.draw.rect(
+            self.screen, (32, 194, 14), ((0, 0), (self.size[0], self.size[1])), w
+        )

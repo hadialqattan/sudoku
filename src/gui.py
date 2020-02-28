@@ -1,17 +1,17 @@
 import pygame, time
 
 # local import
-try: 
+try:
     from .models import Board, LeftPanel
     from .solver import Solver
     from .parallel import Threads
-except ImportError: 
+except ImportError:
     from models import Board, LeftPanel
     from solver import Solver
     from parallel import Threads
 
 
-class GUI: 
+class GUI:
 
     """GUI interface for Sudoku solver
 
@@ -23,7 +23,7 @@ class GUI:
         # set main pygame screen size
         self.screen = pygame.display.set_mode((1000, 720))
         self.board = board
-        # create gui objects from models.py 
+        # create gui objects from models.py
         self.board_model = Board((720, 720, 280), self.board, self.screen)
         self.left_panel = LeftPanel((280, 720), self.screen)
         # create solver object
@@ -32,7 +32,6 @@ class GUI:
         self.threads = Threads()
         # set screen title
         pygame.display.set_caption("Sudoku solver")
-
 
     def refresh(self):
         """Redraw the screen and update it"""
@@ -44,7 +43,6 @@ class GUI:
         self.left_panel.draw()
         # update the screen
         pygame.display.update()
-
 
     def loop(self):
         """Pygame main loop"""
@@ -59,7 +57,7 @@ class GUI:
                     if e.key == pygame.K_q:
                         return
                     if e.key == pygame.K_s:
-                        self.solver.run = True 
+                        self.solver.run = True
                         self.threads.start(self.solver.solve)
                     if e.key == pygame.K_e:
                         self.solver.run = False

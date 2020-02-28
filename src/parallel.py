@@ -8,7 +8,7 @@ class Threads:
     def __init__(self):
         self.threads = []
 
-    def start(self, func, _args_: list=[]) -> bool:
+    def start(self, func, _args_: list = []) -> bool:
         """Create new thread and start it 
         
         :param function: target function to start
@@ -27,12 +27,12 @@ class Threads:
             self.threads.append(process)
             return True
         except (ThreadError, RuntimeError) as threadStartEX:
-            try: 
+            try:
                 # stop the thread if it's running
                 process.join()
-            except RuntimeError: 
+            except RuntimeError:
                 pass
-            print(f'Thread start Error: {threadStartEX}')
+            print(f"Thread start Error: {threadStartEX}")
             return False
 
     def stop(self) -> bool:
@@ -50,5 +50,5 @@ class Threads:
             self.threads.clear()
             return True
         except (ThreadError, RuntimeError) as threadStopEX:
-            print(f'Thread stop Error: {threadStopEX}')
+            print(f"Thread stop Error: {threadStopEX}")
             return False
