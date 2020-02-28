@@ -1,3 +1,10 @@
+# temp
+test_solver.py
+IO.py
+
+# .vscode
+.vscode/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
