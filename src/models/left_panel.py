@@ -27,7 +27,10 @@ class LeftPanel:
         )
         # print(Sudoku at the top)
         pygame.draw.rect(
-            self.__screen, (72, 234, 54), ((0, 0), (self.__size[0], self.__size[1] // 9)), w//3
+            self.__screen,
+            (72, 234, 54),
+            ((0, 0), (self.__size[0], self.__size[1] // 9)),
+            w // 3,
         )
         # create font object
         font = pygame.font.SysFont("rubik", 42)
@@ -71,7 +74,7 @@ class Wrongs:
         """lost property (getter)"""
         return self.__lost
 
-    @property 
+    @property
     def won(self) -> bool:
         """won property (getter)"""
         return self.__won
@@ -92,16 +95,31 @@ class Wrongs:
         w = 1
         # draw rectangle (frame)
         pygame.draw.rect(
-            self.__screen, (72, 234, 54), ((0, self.__size[1] * 8), (self.__size[0], self.__size[1])), w
+            self.__screen,
+            (72, 234, 54),
+            ((0, self.__size[1] * 8), (self.__size[0], self.__size[1])),
+            w,
         )
         # draw wrongs
         # check if the player lost or won
         if self.__won:
-            self.__type("You Won", (72, 234, 54), (self.__size[0] // 4 - 10, self.__size[1] * 8 + 15))
+            self.__type(
+                "You Won",
+                (72, 234, 54),
+                (self.__size[0] // 4 - 10, self.__size[1] * 8 + 15),
+            )
         elif not self.__lost:
-            self.__type("X  " * self.__wrongs_counter, (234, 72, 54), (40, self.__size[1] * 8 + 15))
-        else: 
-            self.__type("You Lost", (234, 72, 54), (self.__size[0] // 4 - 15, self.__size[1] * 8 + 15))
+            self.__type(
+                "X  " * self.__wrongs_counter,
+                (234, 72, 54),
+                (40, self.__size[1] * 8 + 15),
+            )
+        else:
+            self.__type(
+                "You Lost",
+                (234, 72, 54),
+                (self.__size[0] // 4 - 15, self.__size[1] * 8 + 15),
+            )
 
     def __type(self, txt: str, rgb: tuple, pos: tuple):
         """Draw string on the surface screen

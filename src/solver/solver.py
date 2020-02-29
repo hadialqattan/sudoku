@@ -45,7 +45,7 @@ class Solver:
         """change threading.event state"""
         if not self.__e.is_set():
             self.__e.set()
-        else: 
+        else:
             self.__e.clear()
 
     @property

@@ -1,7 +1,7 @@
 from threading import Thread, ThreadError, Event
 
 
-class Threads():
+class Threads:
 
     """Threads management class"""
 

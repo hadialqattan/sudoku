@@ -1,7 +1,7 @@
 import pygame
 
 # local import
-try: 
+try:
     from gui.gui import GUI
 except ImportError:
     from src.gui.gui import GUI
@@ -22,8 +22,8 @@ if __name__ == "__main__":
             [0, 7, 0, 3, 0, 0, 0, 1, 2],
             [1, 2, 0, 0, 0, 7, 4, 0, 0],
             [0, 4, 9, 2, 0, 6, 0, 0, 7],
-        ], 
-        (1000, 720)
+        ],
+        (1000, 720),
     )
     """gui = GUI(
         [

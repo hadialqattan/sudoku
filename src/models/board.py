@@ -27,7 +27,7 @@ class Board:
         self.__wrong = None
 
     @property
-    def squares(self) -> list: 
+    def squares(self) -> list:
         """squares property (getter)"""
         return [
             [
@@ -35,7 +35,8 @@ class Board:
                     self.__board[c][r],
                     (r, c),
                     (self.__size[0], self.__size[2]),
-                    self.__screen, True if self.__board[c][r] == 0 else False
+                    self.__screen,
+                    True if self.__board[c][r] == 0 else False,
                 )
                 for r in range(9)
             ]
@@ -108,7 +109,7 @@ class Board:
         r, c = self.__selected
         return self.__squares[r][c].value
 
-    def set_value(self) -> bool: 
+    def set_value(self) -> bool:
         """set square value 
 
         :returns: True if success else False
@@ -220,7 +221,14 @@ class Square:
     :type changeable: bool
     """
 
-    def __init__(self, value: int, pos: tuple, widthpos: tuple, screen: pygame.Surface, changeable: bool):
+    def __init__(
+        self,
+        value: int,
+        pos: tuple,
+        widthpos: tuple,
+        screen: pygame.Surface,
+        changeable: bool,
+    ):
         self.__value = value
         self.__pos = pos
         self.__widthpos = widthpos
@@ -256,7 +264,7 @@ class Square:
         :param value: square value
         :type value: int
         """
-        if self.__changeable: 
+        if self.__changeable:
             self.__value = value
 
     @property
@@ -271,7 +279,7 @@ class Square:
         :param value: pencil square value
         :type value: int
         """
-        if self.__changeable: 
+        if self.__changeable:
             self.__pencil = value
 
     @property
@@ -280,7 +288,7 @@ class Square:
         return self.__wrong
 
     @wrong.setter
-    def wrong(self, w: bool): 
+    def wrong(self, w: bool):
         """wrong property (setter)
 
         :param w: wrong value
@@ -296,13 +304,13 @@ class Square:
         r, c = self.__pos[0] * space + self.__widthpos[1], self.__pos[1] * space
         # fill unchangeable square background
         if not self.__changeable:
-            sqsize = self.__widthpos[0]//9
+            sqsize = self.__widthpos[0] // 9
             # draw rectangle (frame)
             pygame.draw.rect(self.__screen, (10, 30, 0), ((r, c), (sqsize, sqsize)))
         # check for none 0's squares
         if self.__value != 0:
             font = pygame.font.SysFont("rubik", 38)
-            # set color 
+            # set color
             rgb = (72, 234, 54) if not self.__wrong else (234, 72, 54)
             # create suface object
             v = font.render(str(self.__value), 1, rgb)

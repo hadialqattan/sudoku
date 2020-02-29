@@ -1,7 +1,7 @@
 import pygame, time
 
 # local import
-try: 
+try:
     from models.board import Board
     from models.left_panel import LeftPanel
     from solver.solver import Solver
@@ -65,7 +65,10 @@ class GUI:
                 # set value and delete events
                 elif e.type == pygame.KEYDOWN:
                     # block all playing event when player lost/won
-                    if not self.__left_panel.wrongs.lost and not self.__left_panel.wrongs.won:
+                    if (
+                        not self.__left_panel.wrongs.lost
+                        and not self.__left_panel.wrongs.won
+                    ):
                         # set and delete square value by keys
                         self.set_del_value_by_key(e)
                         # change selected square by arrows
@@ -94,7 +97,10 @@ class GUI:
         # calculate square (row, column) from mouse position
         left_space = self.__screen_size[0] - self.__screen_size[1]
         if p[0] > left_space:
-            self.__board_model.selected = (p[1] // (self.__screen_size[1] // 9), (p[0] - left_space) // (self.__screen_size[1] // 9))
+            self.__board_model.selected = (
+                p[1] // (self.__screen_size[1] // 9),
+                (p[0] - left_space) // (self.__screen_size[1] // 9),
+            )
         else:
             # select none if mouse out of board
             self.__board_model.selected = None
@@ -112,11 +118,11 @@ class GUI:
         # return / enter key
         elif e.key == pygame.K_RETURN:
             issuccess = self.__board_model.set_value()
-            if issuccess: 
-                # check if player solve the board 
+            if issuccess:
+                # check if player solve the board
                 if self.__board_model.isfinished:
                     self.__left_panel.wrongs.won = True
-            elif type(issuccess) == bool: 
+            elif type(issuccess) == bool:
                 # increase wrongs counter
                 self.__left_panel.wrongs.wrongs_counter
         # pencil 1-9
@@ -139,7 +145,7 @@ class GUI:
         elif e.key == pygame.K_9:
             v = 9
         if 0 < v < 10:
-                self.__board_model.set_pencil(v)
+            self.__board_model.set_pencil(v)
 
     def select_by_arrows(self, e: pygame.event.Event, pos: tuple, jump_mode: bool):
         """changed selected square by arrows
@@ -155,13 +161,13 @@ class GUI:
         r, c = 0, 0
         if e.key == pygame.K_UP or e.key == pygame.K_w:
             r = -1
-        elif e.key == pygame.K_DOWN or e.key == pygame.K_s: 
+        elif e.key == pygame.K_DOWN or e.key == pygame.K_s:
             r = 1
-        elif e.key == pygame.K_RIGHT or e.key == pygame.K_d: 
+        elif e.key == pygame.K_RIGHT or e.key == pygame.K_d:
             c = 1
         elif e.key == pygame.K_LEFT or e.key == pygame.K_a:
             c = -1
-        # check if there's selected square 
+        # check if there's selected square
         if pos:
             if jump_mode:
                 # find next empty position in the same direction
@@ -176,5 +182,4 @@ class GUI:
                 # move to the next position
                 pos = (pos[0] + r, pos[1] + c)
                 if -1 < pos[0] < 9 and -1 < pos[1] < 9:
-                    self.__board_model.selected = pos        
-        
+                    self.__board_model.selected = pos
