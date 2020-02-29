@@ -1,12 +1,6 @@
 import threading
 import time
 
-# local import
-try:
-    from .models import Board
-except ImportError:
-    from models import Board
-
 
 class Solver:
 
@@ -18,7 +12,7 @@ class Solver:
     :type sleep: float
     """
 
-    def __init__(self, board: Board, sleep: float):
+    def __init__(self, board, sleep: float):
         self.__board = board
         self.__sleep = sleep / 1000
         self.__e = threading.Event()
@@ -26,27 +20,16 @@ class Solver:
         self.__e.set()
 
     @property
-    def board(self) -> Board:
+    def board(self):
         """board property (getter)"""
         return self.__board
-
-    @board.setter 
-    def board(self, board: Board):
-        """board property (setter)
-
-        :param board: Sudoku Board class instance
-        :type board: Board
-        """
-        if len(board) < 9 or len(board[0]) < 9: 
-            raise ("only 9*9 board accepted.")
-        self.__board = board
 
     @property
     def sleep(self) -> float:
         """sleep property (getter)"""
         return self.__sleep
 
-    @sleep.setter 
+    @sleep.setter
     def sleep(self, sleep: float):
         """sleep property (setter)
         
@@ -91,7 +74,7 @@ class Solver:
             # itertate over all possible numbers(0-9)
             for n in range(1, 10):
                 # check if the number valid in sudoku rules
-                if self.isvalid(self.__board.board, n, pos):
+                if not self.exists(self.__board.board, n, pos):
                     # set the number as solution
                     if change_state:
                         # pause/resumption
@@ -120,7 +103,7 @@ class Solver:
     def nextpos(self, board: list) -> tuple:
         """Get the next unused position from Left2Right & Top2Bottom
 
-        :param board: Sudoku game board representation (two dimensional array)
+        :param board: Sudoku board represent as two dimensional array
         :type board: list
         :returns: next unused position or empty if there's no next
         :rtype: tuple 
@@ -135,30 +118,30 @@ class Solver:
         # end of Sudoku board after (9, 9) position (solved) -edge
         return ()
 
-    def isvalid(self, board: list, n: int, rc: tuple) -> bool:
+    def exists(self, board: list, n: int, rc: tuple) -> tuple:
         """Sudoku game rules checker 
-
-        :param board: Sudoku game board representation (two dimensional array)
+        
+        :param board: Sudoku board represent as two dimensional array
         :type board: list
         :param n: integer number as solution
-        :type n: int 
+        :type n: int
         :param rc: board position represented as (row, column)
         :type rc: tuple
-        :returns: True if the number represent a valid solution else False
-        :rtype: bool
+        :returns: tuple of exists number position OR empty tuple if the number doesn't exists
+        :rtype: tuple
         """
         # check row rule
         # iterate over all columns
         for c in range(len(board)):
             # check if the number exists in the same row
             if board[rc[0]][c] == n:
-                return False
+                return (rc[0], c)
         # check column rule
         # iterate over all rows
         for r in range(len(board)):
             # check if the number exists in the same column
             if board[r][rc[1]] == n:
-                return False
+                return (r, rc[1])
         # check 3*3 area rule
         #       row start pos | column start pos
         spos = ((rc[0] // 3) * 3, (rc[1] // 3) * 3)
@@ -168,6 +151,6 @@ class Solver:
             for c in range(spos[1], spos[1] + 3):
                 # check if the number exists in the same 3*3 area
                 if board[r][c] == n:
-                    return False
+                    return (r, c)
         # valid position
-        return True
+        return ()
