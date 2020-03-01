@@ -109,11 +109,11 @@ class Board:
         r, c = self.__selected
         return self.__squares[r][c].value
 
-    def set_value(self) -> bool:
+    def set_value(self) -> str:
         """set square value 
 
-        :returns: True if success else False
-        :rtype: bool
+        :returns: board state ('s' -> success, 'w' -> wrong, 'c' -> unsolvable board)
+        :rtype: str
         """
         # get selected square
         r, c = self.__selected
@@ -130,12 +130,15 @@ class Board:
                     self.__squares[r][c].value = pencil
                     self.__board[r][c] = pencil
                     self.__wrong = w
-                    return False
+                    return "w"
                 else:
                     # change set square value and return true
                     self.__squares[r][c].value = pencil
                     self.__board[r][c] = pencil
-                    return True
+                    # check if the board unsolvable
+                    if not self.__solver.solve(False):
+                        return "c"
+                    return "s"
 
     @property
     def clear(self):

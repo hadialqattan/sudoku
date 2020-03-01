@@ -5,12 +5,10 @@ try:
     from models.board import Board
     from models.left_panel import LeftPanel
     from solver.solver import Solver
-    from solver.parallel import Threads
 except ImportError:
     from src.models.board import Board
     from src.models.left_panel import LeftPanel
     from src.solver.solver import Solver
-    from src.solver.parallel import Threads
 
 
 class GUI:
@@ -23,18 +21,17 @@ class GUI:
     :type screen_size: tuple
     """
 
-    def __init__(self, board: list, screen_size: tuple):
+    def __init__(self, board: list):
         # set main pygame screen size
-        self.__screen_size = (screen_size[0], screen_size[1])
+        self.__screen_size = (1000, 720)
         self.__screen = pygame.display.set_mode(self.__screen_size[:2])
         self.__board = board
-        # create gui objects from board.py
+        # create board object
         self.__board_model = Board(self.__screen_size, self.__board, self.__screen)
-        self.__left_panel = LeftPanel(self.__screen_size, self.__screen)
-        # create threads managment object
-        self.__threads = Threads()
         # create solver object
-        self.__solver = Solver(self.__board_model, 50)
+        self.__solver = Solver(self.__board_model, 500)
+        # create left panel object
+        self.__left_panel = LeftPanel(self.__solver, self.__screen_size, self.__screen)
         # set screen title
         pygame.display.set_caption("Sudoku")
 
@@ -78,14 +75,6 @@ class GUI:
                         return
                     elif e.key == pygame.K_j:
                         jump_mode = not jump_mode
-                    elif e.key == pygame.K_s:
-                        self.__solver.kill
-                        self.__threads.start(self.__solver.solve)
-                    elif e.key == pygame.K_e:
-                        self.__solver.kill
-                        self.__threads.stop()
-                    elif e.key == pygame.K_r:
-                        self.__solver.e
 
             # update the screen
             self.refresh()
@@ -115,16 +104,23 @@ class GUI:
         # delete / backspace key
         if e.key == pygame.K_BACKSPACE or e.key == pygame.K_DELETE:
             self.__board_model.clear
+            # reset hints
+            self.__left_panel.hints.hint = "everything is well"
         # return / enter key
         elif e.key == pygame.K_RETURN:
             issuccess = self.__board_model.set_value()
-            if issuccess:
+            if issuccess == "s":
                 # check if player solve the board
                 if self.__board_model.isfinished:
                     self.__left_panel.wrongs.won = True
-            elif type(issuccess) == bool:
+            elif issuccess == "w":
                 # increase wrongs counter
                 self.__left_panel.wrongs.wrongs_counter
+                # set clear hint
+                self.__left_panel.hints.hint = "press backspace"
+            elif issuccess == "c":
+                # set clear hint
+                self.__left_panel.hints.hint = "unsolvable board"
         # pencil 1-9
         elif e.key == pygame.K_1:
             v = 1
