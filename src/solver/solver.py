@@ -42,8 +42,17 @@ class Solver:
 
     @property
     def e(self):
-        """change threading.event state"""
-        if not self.__e.is_set():
+        """e property (getter)"""
+        return self.__e.is_set()
+
+    @e.setter
+    def e(self, set: bool):
+        """e property (setter)
+        
+        :param set: set of not
+        :type set: bool
+        """
+        if set:
             self.__e.set()
         else:
             self.__e.clear()

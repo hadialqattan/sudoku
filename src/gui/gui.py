@@ -35,7 +35,7 @@ class GUI:
         # set screen title
         pygame.display.set_caption("Sudoku")
 
-    def refresh(self):
+    def __refresh(self):
         """Redraw the screen and update it"""
         # set background color to black
         self.__screen.fill((0, 0, 0))
@@ -58,7 +58,8 @@ class GUI:
                     return
                 # select square by mouse event
                 elif e.type == pygame.MOUSEBUTTONDOWN:
-                    self.select_by_mouse()
+                    self.__select_by_mouse()
+                    self.__auto_solver_buttons_mouse()
                 # set value and delete events
                 elif e.type == pygame.KEYDOWN:
                     # block all playing event when player lost/won
@@ -67,19 +68,23 @@ class GUI:
                         and not self.__left_panel.wrongs.won
                     ):
                         # set and delete square value by keys
-                        self.set_del_value_by_key(e)
+                        self.__set_del_value_by_key(e)
                         # change selected square by arrows
-                        self.select_by_arrows(e, self.__board_model.selected, jump_mode)
+                        self.__select_by_arrows(
+                            e, self.__board_model.selected, jump_mode
+                        )
 
+                    # quite shortcut
                     if e.key == pygame.K_q:
                         return
+                    # jump mode shortcut
                     elif e.key == pygame.K_j:
                         jump_mode = not jump_mode
 
             # update the screen
-            self.refresh()
+            self.__refresh()
 
-    def select_by_mouse(self):
+    def __select_by_mouse(self):
         """Select board square by MOUSEBUTTONDOWN event"""
         # get mouse click position
         p = pygame.mouse.get_pos()
@@ -94,7 +99,18 @@ class GUI:
             # select none if mouse out of board
             self.__board_model.selected = None
 
-    def set_del_value_by_key(self, e: pygame.event.Event):
+    def __auto_solver_buttons_mouse(self):
+        """Button events"""
+        # get mouse click position
+        p = pygame.mouse.get_pos()
+        # iterate over all buttons
+        for b in self.__left_panel.auto_solver.buttons:
+            # check if the position match b click range
+            if p[0] in b.click_range[0] and p[1] in b.click_range[1]:
+                # call click event
+                b.click()
+
+    def __set_del_value_by_key(self, e: pygame.event.Event):
         """Set and delete square value by pygame.KEYDOWN event
 
         :param e: pygame event
@@ -143,7 +159,7 @@ class GUI:
         if 0 < v < 10:
             self.__board_model.set_pencil(v)
 
-    def select_by_arrows(self, e: pygame.event.Event, pos: tuple, jump_mode: bool):
+    def __select_by_arrows(self, e: pygame.event.Event, pos: tuple, jump_mode: bool):
         """changed selected square by arrows
 
         :param e: pygame event

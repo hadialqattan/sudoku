@@ -306,10 +306,16 @@ class AutoSolver:
         """
         self.__delay = value
 
+    @property
+    def buttons(self):
+        """buttons property (getter)"""
+        return self.__buttons
+
     def start(self):
         """Start auto solver"""
         if not self.__run:
             self.__solver.kill
+            self.__solver.e = True
             self.__threads.start(self.__solver.solve)
             self.__run = True
 
@@ -321,14 +327,14 @@ class AutoSolver:
 
     def pause(self):
         """pause auto solver by clear e flag"""
-        if self.__run:
-            self.__solver.e
+        if self.__run and self.__solver.e:
+            self.__solver.e = False
             self.__run = False
 
     def resume(self):
         """resume auto solver by set e flag"""
-        if not self.__run:
-            self.__solver.e
+        if not self.__run and not self.__solver.e:
+            self.__solver.e = True
             self.__run = True
 
     def draw(self):
@@ -409,17 +415,27 @@ class Button:
         self.__fill = (0, 0, 0)
         self.__w = 1
         self.__s = s
+        self.__click_range = (
+            range(self.__pos[0], self.__pos[0] + self.__size[0] + 1),
+            range(self.__pos[1], self.__pos[1] + self.__size[1] + 1),
+        )
 
-    def onclick(self):
-        """Handle onclick event"""
+    @property
+    def click_range(self):
+        """click range property"""
+        return self.__click_range
+
+    def click(self):
+        """Handle click event"""
+        print(f"clicked: {self.__innertxt}.")
         # change button style
         self.__fill = (10, 30, 0)
         self.__w = 2
         # call the traget
         self.__target()
-        # reset button style
+        """# reset button style
         self.__fill = (0, 0, 0)
-        self.__w = 1
+        self.__w = 1"""
 
     def draw(self):
         """Draw buttom rect"""
