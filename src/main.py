@@ -1,10 +1,7 @@
 import pygame
 
 # local import
-try:
-    from gui.gui import GUI
-except ImportError:
-    from src.gui.gui import GUI
+from gui.gui import GUI
 
 
 if __name__ == "__main__":

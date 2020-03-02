@@ -1,14 +1,9 @@
 import pygame, time
 
 # local import
-try:
-    from models.board import Board
-    from models.left_panel import LeftPanel
-    from solver.solver import Solver
-except ImportError:
-    from src.models.board import Board
-    from src.models.left_panel import LeftPanel
-    from src.solver.solver import Solver
+from models.board import Board
+from models.left_panel import LeftPanel
+from solver.solver import Solver
 
 
 class GUI:
@@ -45,6 +40,9 @@ class GUI:
         self.__left_panel.draw()
         # update the screen
         pygame.display.update()
+        # reset buttons style
+        for b in self.__left_panel.auto_solver.buttons:
+            b.reset
 
     def loop(self):
         """Pygame main loop"""

@@ -279,32 +279,42 @@ class AutoSolver:
         self.__screen = screen
         self.__threads = Threads()
         self.__solver = solver
-        self.__delay = 500
-        s = (self.__size[0] - self.__size[0] // 2 - 25, self.__size[1] // 2)
+        controlsize = (self.__size[0] - self.__size[0] // 2 - 25, self.__size[1] // 2)
         self.__buttons = [
-            Button(*i, s, self.__screen)
+            Button(*i, controlsize, self.__screen)
             for i in (
-                (self.pause, (-2, -2), "pause", (20, 220)),
-                (self.resume, (-10, -2), "resume", (145, 220)),
-                (self.start, (2, 0.8), "start", (20, 270)),
-                (self.kill, (2.3, 0.9), "stop", (145, 270)),
+                (self.pause, (), (-2, -2), "pause", 24, (20, 220)),
+                (self.resume, (), (-10, -2), "resume", 24, (145, 220)),
+                (self.start, (), (2, 0.8), "start", 24, (20, 270)),
+                (self.kill, (), (2.3, 0.9), "stop", 24, (145, 270)),
             )
         ]
+        delaysize = (self.__size[0] - self.__size[0] // 2 - 25, self.__size[1] // 4)
+        self.__buttons.extend(
+            [
+                Button(*i, delaysize, self.__screen)
+                for i in (
+                    (self.delay, (1000), (15, -1), "1.0", 16, (20, 345)),
+                    (self.delay, (500), (15, -1), "0.5", 16, (20, 373)),
+                    (self.delay, (750), (10, -1), "0.75", 16, (145, 345)),
+                    (self.delay, (250), (10, -1), "0.25", 16, (145, 373)),
+                )
+            ]
+        )
         self.__run = False
 
     @property
     def delay(self) -> float:
         """delay property (getter)"""
-        return self.__delay_time
+        return self.__solver.delay
 
-    @delay.setter
     def delay(self, value: float):
         """delay property (setter)
 
         :param value: delay value
         :type value: float
         """
-        self.__delay = value
+        self.__solver.delay = value
 
     @property
     def buttons(self):
@@ -314,14 +324,14 @@ class AutoSolver:
     def start(self):
         """Start auto solver"""
         if not self.__run:
-            self.__solver.kill
+            self.__solver.kill = False
             self.__solver.e = True
             self.__threads.start(self.__solver.solve)
             self.__run = True
 
     def kill(self):
         """Kill/Stop auto solver"""
-        self.__solver.kill
+        self.__solver.kill = True
         self.__threads.stop()
         self.__run = False
 
@@ -356,7 +366,11 @@ class AutoSolver:
             (self.__size[0] // 9 + 10, self.__size[1] * 2.15),
             30,
         )
-        # three buttons (start/stop/pause/resume)
+        # set delay part title
+        self.__type(
+            "Delay (secs)", (72, 234, 54), (self.__size[0] // 3, self.__size[1] * 4), 18
+        )
+        # draw buttons
         for b in self.__buttons:
             b.draw()
 
@@ -367,7 +381,7 @@ class AutoSolver:
         :type txt: str
         :param rgb: text color
         :type rgb: tuple
-        :param pos: postition to draw
+        :param pos: postition to draw (x, y)
         :type pos: tuple
         :param font_size: font size plx
         :type font_size: int
@@ -386,10 +400,14 @@ class Button:
 
     :param target: target funtion to start onclicked
     :type target: function
+    :param _args: target funtion args
+    :type _args: tuple
     :param s: left, top space
     :type s: tuple
     :param innertxt: inner text
     :type innertxt: str
+    :param fontsize: innertxt size
+    :type fontsize: int
     :param pos: square position (row, column)
     :type pos: tuple
     :param size: screen size (width height)
@@ -401,8 +419,10 @@ class Button:
     def __init__(
         self,
         target,
+        _args: tuple,
         s: tuple,
         innertxt: str,
+        fontsize: int,
         pos: tuple,
         size: tuple,
         screen: pygame.Surface,
@@ -411,7 +431,9 @@ class Button:
         self.__screen = screen
         self.__pos = pos
         self.__innertxt = innertxt
+        self.__fontsize = fontsize
         self.__target = target
+        self.__args = _args
         self.__fill = (0, 0, 0)
         self.__w = 1
         self.__s = s
@@ -425,17 +447,22 @@ class Button:
         """click range property"""
         return self.__click_range
 
+    @property
+    def reset(self):
+        """Reset button style"""
+        self.__fill = (0, 0, 0)
+        self.__w = 1
+
     def click(self):
         """Handle click event"""
-        print(f"clicked: {self.__innertxt}.")
         # change button style
-        self.__fill = (10, 30, 0)
+        self.__fill = (30, 50, 20)
         self.__w = 2
         # call the traget
-        self.__target()
-        """# reset button style
-        self.__fill = (0, 0, 0)
-        self.__w = 1"""
+        if self.__args:
+            self.__target(self.__args)
+        else:
+            self.__target()
 
     def draw(self):
         """Draw buttom rect"""
@@ -446,7 +473,7 @@ class Button:
         )
         # set inner text
         # create font object
-        font = pygame.font.SysFont("rubik", 24)
+        font = pygame.font.SysFont("rubik", self.__fontsize)
         # render font object with text
         v = font.render(self.__innertxt, 1, (72, 234, 54))
         # draw font obj on the surface

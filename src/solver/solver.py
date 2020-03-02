@@ -8,15 +8,15 @@ class Solver:
 
     :param board: Sudoku Board class instance
     :type board: Board
-    :param sleep: delay time 1/1000 secs
-    :type sleep: float
+    :param delay: delay time 1/1000 secs
+    :type delay: float
     """
 
-    def __init__(self, board, sleep: float):
+    def __init__(self, board, delay: float):
         self.__board = board
-        self.__sleep = sleep / 1000
+        self.__delay = delay / 1000
         self.__e = threading.Event()
-        self.__kill = True
+        self.__kill = False
         self.__e.set()
 
     @property
@@ -25,20 +25,18 @@ class Solver:
         return self.__board
 
     @property
-    def sleep(self) -> float:
-        """sleep property (getter)"""
-        return self.__sleep
+    def delay(self) -> float:
+        """delay property (getter)"""
+        return self.__delay
 
-    @sleep.setter
-    def sleep(self, sleep: float):
-        """sleep property (setter)
+    @delay.setter
+    def delay(self, delay: float):
+        """delay property (setter)
         
-        :param sleep: delay time 1/1000 secs
-        :type sleep: float
+        :param delay: delay time 1/1000 secs
+        :type delay: float
         """
-        sleep = 1000 if sleep > 1000 else sleep
-        sleep = 0 if sleep < 0 else sleep
-        self.__sleep = sleep / 1000
+        self.__delay = delay / 1000
 
     @property
     def e(self):
@@ -60,9 +58,16 @@ class Solver:
     @property
     def kill(self):
         """stop solve function to join the thread"""
-        self.__kill = not self.__kill
-        if not self.__e.is_set():
-            self.__e.set()
+        return self.__kill
+
+    @kill.setter
+    def kill(self, kill: bool):
+        """kill property (setter)
+
+        :param kill: value
+        :type kill: bool
+        """
+        self.__kill = kill
 
     def solve(self, change_state: bool = True) -> bool:
         """Solve Sudoku game board using backtracking algorithm
@@ -92,7 +97,7 @@ class Solver:
                         self.__board.set_sq_value(n, (pos[0], pos[1]))
                     self.__board.board[pos[0]][pos[1]] = n
                     # sleep (solution case)
-                    time.sleep(self.__sleep)
+                    time.sleep(self.__delay)
                     # continue in the solution -edge
                     if self.solve():
                         return True
@@ -105,7 +110,7 @@ class Solver:
                             self.__board.set_sq_value(0, (pos[0], pos[1]))
                         self.__board.board[pos[0]][pos[1]] = 0
             # sleep (backtracking case)
-            time.sleep(self.__sleep)
+            time.sleep(self.__delay)
             # invalid solution
             return False
 
