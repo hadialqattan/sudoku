@@ -186,14 +186,14 @@ class Time:
         self.__size = (size[0], size[1] // 9)
         self.__screen = screen
         self.__init_time = time.time()
-    
+
     @property
     def init_time(self):
         """init time property (getter)"""
         return self.__init_time
-    
+
     @init_time.setter
-    def init_time(self, value: time.time): 
+    def init_time(self, value: time.time):
         """init time property (setter)
         
         :param value: init time value
@@ -430,8 +430,8 @@ class Options:
     :type screen: pygame.Surface 
     """
 
-    def __init__(self, solver, size: tuple, screen: pygame.Surface): 
-        self.__size = (size[0], size[1] // 9) 
+    def __init__(self, solver, size: tuple, screen: pygame.Surface):
+        self.__size = (size[0], size[1] // 9)
         self.__screen = screen
         self.__solver = solver
         self.__generator = Generator()
@@ -500,7 +500,7 @@ class Options:
                     # reset it to 0
                     self.__solver.board.board[r][c] = 0
         # clear wrong square
-        if self.__solver.board.wrong: 
+        if self.__solver.board.wrong:
             self.__solver.board.clear
         # update squares
         self.__solver.board.update_squares()
@@ -596,7 +596,7 @@ class Button:
         # call the traget
         if self.__args:
             return self.__target(self.__args)
-        elif args: 
+        elif args:
             return self.__target(*args)
         else:
             return self.__target()

@@ -4,7 +4,7 @@ from random import randint
 from solver.solver import Solver
 
 
-class Generator: 
+class Generator:
 
     """Random valid Sudoku board generator"""
 
@@ -12,7 +12,7 @@ class Generator:
         self.__board = [[0 for r in range(9)] for c in range(9)]
         self.__solver = Solver(self.__board, 0)
 
-    def generate(self) -> list: 
+    def generate(self) -> list:
         """Generate valid random Sudoku board
 
         :returns: valid Sudoku board
@@ -34,13 +34,13 @@ class Generator:
             if (r, c) not in ranpos:
                 ranpos.append((r, c))
                 counter += 1
-        # sovle the board 
+        # sovle the board
         self.__solver.solve(board)
         # apply solution in ranpos squares
-        for r in range(9): 
-            for c in range(9): 
-                if (r, c) in ranpos: 
+        for r in range(9):
+            for c in range(9):
+                if (r, c) in ranpos:
                     self.__board[r][c] = board[r][c]
-                else: 
+                else:
                     self.__board[r][c] = 0
         return self.__board

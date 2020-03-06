@@ -45,7 +45,7 @@ class GUI:
         for b in self.__left_panel.auto_solver.buttons:
             b.reset
         # reset options buttons
-        for b in self.__left_panel.options.buttons: 
+        for b in self.__left_panel.options.buttons:
             b.reset
 
     def loop(self):
@@ -120,30 +120,30 @@ class GUI:
             # check if the position match b click range
             if p[0] in b.click_range[0] and p[1] in b.click_range[1]:
                 # call click event
-                if b.innertxt == 'selected': 
+                if b.innertxt == "selected":
                     # copy board
-                    # init copy as two dimensional array with 9 rows 
+                    # init copy as two dimensional array with 9 rows
                     copy = [[] for r in range(9)]
                     # iterate over all rows
                     for r in range(9):
-                        # iterate over all columns 
-                        for c in range(9): 
+                        # iterate over all columns
+                        for c in range(9):
                             # append the num
                             copy[r].append(self.__board_model.board[r][c])
                     s = b.click((copy, self.__board_model.selected))
-                elif b.innertxt == 'generate':
+                elif b.innertxt == "generate":
                     self.__left_panel.gamesystem.reset()
                     self.__left_panel.time.init_time = time.time()
                     s = b.click((self.__board_model,))
-                elif b.innertxt == 'reset':
+                elif b.innertxt == "reset":
                     self.__left_panel.gamesystem.reset()
                     self.__left_panel.time.init_time = time.time()
                     s = b.click()
-                else: 
+                else:
                     s = b.click()
         # check for unsolvable case
         if not s:
-            self.__left_panel.hints.hint = 'unsolvable board'
+            self.__left_panel.hints.hint = "unsolvable board"
 
     def __set_del_value_by_key(self, e: pygame.event.Event):
         """Set and delete square value by pygame.KEYDOWN event

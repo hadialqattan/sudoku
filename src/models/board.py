@@ -39,7 +39,7 @@ class Board:
         self.__wrong = None
 
     @property
-    def wrong(self): 
+    def wrong(self):
         """wrong property (getter)"""
         return self.__wrong
 
@@ -48,11 +48,11 @@ class Board:
         """squares property (getter)"""
         return self.__squares
 
-    def update_squares(self): 
+    def update_squares(self):
         """squares property (updatter)"""
         # iterate over all squares
-        for r in range(9): 
-            for c in range(9): 
+        for r in range(9):
+            for c in range(9):
                 # update values
                 self.__squares[r][c].value = self.__board[r][c]
                 self.__squares[r][c].pencil = 0
@@ -162,12 +162,12 @@ class Board:
                     self.__squares[r][c].value = pencil
                     self.__board[r][c] = pencil
                     # copy board
-                    # init copy as two dimensional array with 9 rows 
+                    # init copy as two dimensional array with 9 rows
                     copy = [[] for r in range(9)]
                     # iterate over all rows
                     for r in range(9):
-                        # iterate over all columns 
-                        for c in range(9): 
+                        # iterate over all columns
+                        for c in range(9):
                             # append the num
                             copy[r].append(self.__board[r][c])
                     # check if the board unsolvable
