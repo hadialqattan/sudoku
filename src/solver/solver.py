@@ -13,16 +13,11 @@ class Solver:
     """
 
     def __init__(self, board, delay: float):
-        self.__board = board
+        self.board = board
         self.__delay = delay / 1000
         self.__e = threading.Event()
         self.__kill = False
         self.__e.set()
-
-    @property
-    def board(self):
-        """board property (getter)"""
-        return self.__board
 
     @property
     def delay(self) -> float:
@@ -69,50 +64,70 @@ class Solver:
         """
         self.__kill = kill
 
-    def solve(self, change_state: bool = True) -> bool:
-        """Solve Sudoku game board using backtracking algorithm
+    def auto_solver(self) -> bool:
+        """Solve Sudoku game board using backtracking algorithm (AutoSolver (board state change))
 
-        :param board: Sudoku game board representation (two dimensional array)
-        :type board: list
-        :param change_state: change board state (default = True)
-        :type change_state: bool
         :returns: True if the board solved else False for backtracking
         :rtype: bool
         """
         if not self.__kill:
             # get the next unused position from (LTR, TTB)
-            pos = self.nextpos(self.__board.board)
+            pos = self.nextpos(self.board.board)
             # solved -edge
             if not pos:
                 return True
             # itertate over all possible numbers(0-9)
             for n in range(1, 10):
                 # check if the number valid in sudoku rules
-                if not self.exists(self.__board.board, n, pos):
-                    # set the number as solution
-                    if change_state:
-                        # pause/resumption
-                        self.__e.wait()
-                        # change board state
-                        self.__board.set_sq_value(n, (pos[0], pos[1]))
-                    self.__board.board[pos[0]][pos[1]] = n
+                if not self.exists(self.board.board, n, pos):
+                    # pause/resumption
+                    self.__e.wait()
+                    # change board state
+                    self.board.set_sq_value(n, (pos[0], pos[1]))
+                    self.board.board[pos[0]][pos[1]] = n
                     # sleep (solution case)
                     time.sleep(self.__delay)
                     # continue in the solution -edge
-                    if self.solve():
+                    if self.auto_solver():
                         return True
                     if not self.__kill:
+                        # pause/resumption
+                        self.__e.wait()
                         # backtracking
-                        if change_state:
-                            # pause/resumption
-                            self.__e.wait()
-                            # change board state
-                            self.__board.set_sq_value(0, (pos[0], pos[1]))
-                        self.__board.board[pos[0]][pos[1]] = 0
+                        # change board state
+                        self.board.set_sq_value(0, (pos[0], pos[1]))
+                        self.board.board[pos[0]][pos[1]] = 0
             # sleep (backtracking case)
             time.sleep(self.__delay)
             # invalid solution
             return False
+
+    def solve(self, board: list) -> bool:
+        """Solve Sudoku game board using backtracking algorithm
+
+        :param board: Sudoku game board representation (two dimensional array)
+        :type board: list
+        :returns: True if the board solved else False for backtracking
+        :rtype: bool
+        """
+        # get the next unused position from (LTR, TTB)
+        pos = self.nextpos(board)
+        # solved -edge
+        if not pos:
+            return True
+        # itertate over all possible numbers(0-9)
+        for n in range(1, 10):
+            # check if the number valid in sudoku rules
+            if not self.exists(board, n, pos):
+                # set value as solution
+                board[pos[0]][pos[1]] = n
+                # continue in the solution -edge
+                if self.solve(board):
+                    return True
+                # backtracking
+                board[pos[0]][pos[1]] = 0
+        # invalid solution
+        return False
 
     def nextpos(self, board: list) -> tuple:
         """Get the next unused position from Left2Right & Top2Bottom

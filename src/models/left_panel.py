@@ -2,6 +2,7 @@ import pygame, time
 
 # local import
 from solver.parallel import Threads
+from generator.generator import Generator
 
 
 class LeftPanel:
@@ -19,10 +20,11 @@ class LeftPanel:
     def __init__(self, solver, size: tuple, screen: pygame.Surface):
         self.__size = (size[0] - size[1], size[1])
         self.__screen = screen
-        self.wrongs = Wrongs(self.__size, self.__screen)
+        self.gamesystem = GameSystem(self.__size, self.__screen)
         self.time = Time(self.__size, self.__screen)
         self.hints = Hints(self.__size, self.__screen)
         self.auto_solver = AutoSolver(solver, self.__size, self.__screen)
+        self.options = Options(solver, self.__size, self.__screen)
 
     def draw(self):
         """Draw the left panel on the screen"""
@@ -52,13 +54,15 @@ class LeftPanel:
         self.auto_solver.draw()
         # draw time panel at the bottom (above wrongs panel)
         self.time.draw()
-        # draw wrongs panel at the bottom
-        self.wrongs.draw()
+        # draw gamesystem panel at the bottom
+        self.gamesystem.draw()
+        # draw option panel (solve, select, reset, generate)
+        self.options.draw()
 
 
-class Wrongs:
+class GameSystem:
 
-    """Lose system class
+    """GameSystem system class
     
     :param size: screen size (width height)
     :type size: tuple
@@ -72,6 +76,12 @@ class Wrongs:
         self.__wrongs_counter = 0
         self.__lost = False
         self.__won = False
+
+    def reset(self):
+        """reset won/lost and wrongs counter"""
+        self.__lost = False
+        self.__won = False
+        self.__wrongs_counter = 0
 
     @property
     def wrongs_counter(self):
@@ -176,6 +186,20 @@ class Time:
         self.__size = (size[0], size[1] // 9)
         self.__screen = screen
         self.__init_time = time.time()
+    
+    @property
+    def init_time(self):
+        """init time property (getter)"""
+        return self.__init_time
+    
+    @init_time.setter
+    def init_time(self, value: time.time): 
+        """init time property (setter)
+        
+        :param value: init time value
+        :type value: time.time
+        """
+        self.__init_time = value
 
     def __time_formatter(self, delta: float) -> str:
         """convert float secounds to HH:MM:SS str format
@@ -326,7 +350,7 @@ class AutoSolver:
         if not self.__run:
             self.__solver.kill = False
             self.__solver.e = True
-            self.__threads.start(self.__solver.solve)
+            self.__threads.start(self.__solver.auto_solver)
             self.__run = True
 
     def kill(self):
@@ -394,6 +418,108 @@ class AutoSolver:
         self.__screen.blit(v, pos)
 
 
+class Options:
+
+    """Options class 
+
+    :param solver: solver object
+    :type solver: Solver
+    :param size: screen size (width height)
+    :type size: tuple
+    :param screen: pygame screen
+    :type screen: pygame.Surface 
+    """
+
+    def __init__(self, solver, size: tuple, screen: pygame.Surface): 
+        self.__size = (size[0], size[1] // 9) 
+        self.__screen = screen
+        self.__solver = solver
+        self.__generator = Generator()
+        controlsize = (self.__size[0] - self.__size[0] // 2 - 25, self.__size[1] // 2)
+        self.__buttons = [
+            Button(*i, controlsize, self.__screen)
+            for i in (
+                (self.solve_all, (), (14.25, -1.8), "all", 24, (20, 450)),
+                (self.solve_selected, (), (-16, -1.8), "selected", 24, (145, 450)),
+                (self.reset, (), (1.8, 0.7), "reset", 24, (20, 500)),
+                (self.generate, (), (-18.3, 0.7), "generate", 24, (145, 500)),
+            )
+        ]
+
+    @property
+    def buttons(self):
+        """buttons property (getter)"""
+        return self.__buttons
+
+    def solve_all(self) -> bool:
+        """Solve entire board
+        
+        :returns: solvability
+        :rtype: bool
+        """
+        # solve all
+        s = self.__solver.solve(self.__solver.board.board)
+        self.__solver.board.update_squares()
+        return s
+
+    def solve_selected(self, board: list, pos: tuple):
+        """Solve selected square
+        
+        :param board: sudoku board to solve
+        :type board: list
+        :param pos: square position
+        :type pos: tuple
+        """
+        # set solver delay time to 0
+        self.__solver.delay = 0
+        # solve the board
+        solution = self.__solver.solve(board)
+        # if it's solvable set selected square value
+        if solution and pos:
+            self.__solver.board.board[pos[0]][pos[1]] = board[pos[0]][pos[1]]
+            self.__solver.board.update_squares()
+        return solution
+
+    def generate(self, board: list) -> bool:
+        """Generate new board
+        
+        :param board: sudoku board
+        :type board: list
+        """
+        # set new random generated Sudoku board
+        board.board = self.__generator.generate()
+        return True
+
+    def reset(self) -> bool:
+        """Reset board"""
+        # iterate over all squares
+        for r in range(9):
+            for c in range(9):
+                # check for changeable squares
+                if self.__solver.board.squares[r][c].changeable:
+                    # reset it to 0
+                    self.__solver.board.board[r][c] = 0
+        # clear wrong square
+        if self.__solver.board.wrong: 
+            self.__solver.board.clear
+        # update squares
+        self.__solver.board.update_squares()
+        return True
+
+    def draw(self):
+        """Draw auto solver rect"""
+        # sovle txt
+        # create font object
+        font = pygame.font.SysFont("rubik", 22)
+        # render font object with text
+        v = font.render("solve", 1, (72, 234, 54))
+        # draw font obj on the surface
+        self.__screen.blit(v, (110, 420))
+        # draw buttons
+        for b in self.__buttons:
+            b.draw()
+
+
 class Button:
 
     """Button class 
@@ -443,6 +569,11 @@ class Button:
         )
 
     @property
+    def innertxt(self):
+        """innertxt property (getter)"""
+        return self.__innertxt
+
+    @property
     def click_range(self):
         """click range property"""
         return self.__click_range
@@ -453,19 +584,25 @@ class Button:
         self.__fill = (0, 0, 0)
         self.__w = 1
 
-    def click(self):
-        """Handle click event"""
+    def click(self, args: tuple = ()):
+        """Handle click event
+        
+        :param args: target function args if the args isn't constant
+        :type args: tuple
+        """
         # change button style
         self.__fill = (30, 50, 20)
         self.__w = 2
         # call the traget
         if self.__args:
-            self.__target(self.__args)
+            return self.__target(self.__args)
+        elif args: 
+            return self.__target(*args)
         else:
-            self.__target()
+            return self.__target()
 
     def draw(self):
-        """Draw buttom rect"""
+        """Draw button rect"""
         # Draw main frame
         # draw rectangle (frame)
         pygame.draw.rect(

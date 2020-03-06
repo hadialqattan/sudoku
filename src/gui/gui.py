@@ -4,23 +4,23 @@ import pygame, time
 from models.board import Board
 from models.left_panel import LeftPanel
 from solver.solver import Solver
+from generator.generator import Generator
 
 
 class GUI:
 
     """GUI interface for Sudoku solver
 
-    :param board: Board class instance represent our Sudoku board
-    :type board: Board
     :param screen_size: display width
     :type screen_size: tuple
     """
 
-    def __init__(self, board: list):
+    def __init__(self):
         # set main pygame screen size
         self.__screen_size = (1000, 720)
         self.__screen = pygame.display.set_mode(self.__screen_size[:2])
-        self.__board = board
+        self.__generator = Generator()
+        self.__board = self.__generator.generate()
         # create board object
         self.__board_model = Board(self.__screen_size, self.__board, self.__screen)
         # create solver object
@@ -41,7 +41,11 @@ class GUI:
         # update the screen
         pygame.display.update()
         # reset buttons style
+        # reset auto solver buttons
         for b in self.__left_panel.auto_solver.buttons:
+            b.reset
+        # reset options buttons
+        for b in self.__left_panel.options.buttons: 
             b.reset
 
     def loop(self):
@@ -58,12 +62,13 @@ class GUI:
                 elif e.type == pygame.MOUSEBUTTONDOWN:
                     self.__select_by_mouse()
                     self.__auto_solver_buttons_mouse()
+                    self.__options_buttons_mouse()
                 # set value and delete events
                 elif e.type == pygame.KEYDOWN:
                     # block all playing event when player lost/won
                     if (
-                        not self.__left_panel.wrongs.lost
-                        and not self.__left_panel.wrongs.won
+                        not self.__left_panel.gamesystem.lost
+                        and not self.__left_panel.gamesystem.won
                     ):
                         # set and delete square value by keys
                         self.__set_del_value_by_key(e)
@@ -93,20 +98,52 @@ class GUI:
                 p[1] // (self.__screen_size[1] // 9),
                 (p[0] - left_space) // (self.__screen_size[1] // 9),
             )
-        else:
-            # select none if mouse out of board
-            self.__board_model.selected = None
 
     def __auto_solver_buttons_mouse(self):
         """Button events"""
         # get mouse click position
         p = pygame.mouse.get_pos()
-        # iterate over all buttons
+        # iterate over all auto solver buttons
         for b in self.__left_panel.auto_solver.buttons:
             # check if the position match b click range
             if p[0] in b.click_range[0] and p[1] in b.click_range[1]:
                 # call click event
                 b.click()
+
+    def __options_buttons_mouse(self):
+        """Button events"""
+        # get mouse click position
+        p = pygame.mouse.get_pos()
+        s = True
+        # iterate over all options buttons
+        for b in self.__left_panel.options.buttons:
+            # check if the position match b click range
+            if p[0] in b.click_range[0] and p[1] in b.click_range[1]:
+                # call click event
+                if b.innertxt == 'selected': 
+                    # copy board
+                    # init copy as two dimensional array with 9 rows 
+                    copy = [[] for r in range(9)]
+                    # iterate over all rows
+                    for r in range(9):
+                        # iterate over all columns 
+                        for c in range(9): 
+                            # append the num
+                            copy[r].append(self.__board_model.board[r][c])
+                    s = b.click((copy, self.__board_model.selected))
+                elif b.innertxt == 'generate':
+                    self.__left_panel.gamesystem.reset()
+                    self.__left_panel.time.init_time = time.time()
+                    s = b.click((self.__board_model,))
+                elif b.innertxt == 'reset':
+                    self.__left_panel.gamesystem.reset()
+                    self.__left_panel.time.init_time = time.time()
+                    s = b.click()
+                else: 
+                    s = b.click()
+        # check for unsolvable case
+        if not s:
+            self.__left_panel.hints.hint = 'unsolvable board'
 
     def __set_del_value_by_key(self, e: pygame.event.Event):
         """Set and delete square value by pygame.KEYDOWN event
@@ -126,10 +163,10 @@ class GUI:
             if issuccess == "s":
                 # check if player solve the board
                 if self.__board_model.isfinished:
-                    self.__left_panel.wrongs.won = True
+                    self.__left_panel.gamesystem.won = True
             elif issuccess == "w":
                 # increase wrongs counter
-                self.__left_panel.wrongs.wrongs_counter
+                self.__left_panel.gamesystem.wrongs_counter
                 # set clear hint
                 self.__left_panel.hints.hint = "press backspace"
             elif issuccess == "c":

@@ -22,14 +22,7 @@ class Board:
         self.__screen = screen
         self.__solver = Solver(self, 0)
         # create squares list
-        self.__squares = self.squares
-        self.__selected = None
-        self.__wrong = None
-
-    @property
-    def squares(self) -> list:
-        """squares property (getter)"""
-        return [
+        self.__squares = [
             [
                 Square(
                     self.__board[c][r],
@@ -42,6 +35,27 @@ class Board:
             ]
             for c in range(9)
         ]
+        self.__selected = None
+        self.__wrong = None
+
+    @property
+    def wrong(self): 
+        """wrong property (getter)"""
+        return self.__wrong
+
+    @property
+    def squares(self) -> list:
+        """squares property (getter)"""
+        return self.__squares
+
+    def update_squares(self): 
+        """squares property (updatter)"""
+        # iterate over all squares
+        for r in range(9): 
+            for c in range(9): 
+                # update values
+                self.__squares[r][c].value = self.__board[r][c]
+                self.__squares[r][c].pencil = 0
 
     @property
     def board(self) -> list:
@@ -57,8 +71,20 @@ class Board:
         """
         # set new board
         self.__board = board
-        # update squares to new board
-        self.__squares = self.squares
+        # reinit squares
+        self.__squares = [
+            [
+                Square(
+                    self.__board[c][r],
+                    (r, c),
+                    (self.__size[0], self.__size[2]),
+                    self.__screen,
+                    True if self.__board[c][r] == 0 else False,
+                )
+                for r in range(9)
+            ]
+            for c in range(9)
+        ]
 
     @property
     def selected(self) -> tuple:
@@ -135,8 +161,17 @@ class Board:
                     # change set square value and return true
                     self.__squares[r][c].value = pencil
                     self.__board[r][c] = pencil
+                    # copy board
+                    # init copy as two dimensional array with 9 rows 
+                    copy = [[] for r in range(9)]
+                    # iterate over all rows
+                    for r in range(9):
+                        # iterate over all columns 
+                        for c in range(9): 
+                            # append the num
+                            copy[r].append(self.__board[r][c])
                     # check if the board unsolvable
-                    if not self.__solver.solve(False):
+                    if not self.__solver.solve(copy):
                         return "c"
                     return "s"
 
@@ -240,6 +275,11 @@ class Square:
         self.__selected = False
         self.__changeable = changeable
         self.__wrong = False
+
+    @property
+    def changeable(self):
+        """changeable property (getter)"""
+        return self.__changeable
 
     @property
     def selected(self) -> tuple:
