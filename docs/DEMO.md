@@ -1,7 +1,7 @@
 # DEMO
 
 ### Normal Playing
-![Normal Playing](docs/gif/normal.gif)
+![Normal Playing](https://raw.githubusercontent.com/HadiZakiAlQattan/sudoku-solver/master/docs/gif/normal.gif)
 
 ### Wrong Detector
 ![Wrong](https://github.com/HadiZakiAlQattan/sudoku-solver/tree/master/docs/gif/wrong.gif)
