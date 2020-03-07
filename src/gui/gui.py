@@ -76,14 +76,12 @@ class GUI:
                         self.__select_by_arrows(
                             e, self.__board_model.selected, jump_mode
                         )
-
                     # quite shortcut
                     if e.key == pygame.K_q:
                         return
                     # jump mode shortcut
                     elif e.key == pygame.K_j:
                         jump_mode = not jump_mode
-
             # update the screen
             self.__refresh()
 
@@ -132,11 +130,15 @@ class GUI:
                             copy[r].append(self.__board_model.board[r][c])
                     s = b.click((copy, self.__board_model.selected))
                 elif b.innertxt == "generate":
+                    # reset won/lost/wrongs_counter
                     self.__left_panel.gamesystem.reset()
+                    # reset time
                     self.__left_panel.time.init_time = time.time()
                     s = b.click((self.__board_model,))
                 elif b.innertxt == "reset":
+                    # reset won/lost/wrongs_counter
                     self.__left_panel.gamesystem.reset()
+                    # reset time
                     self.__left_panel.time.init_time = time.time()
                     s = b.click()
                 else:
@@ -154,6 +156,7 @@ class GUI:
         v = 0
         # delete / backspace key
         if e.key == pygame.K_BACKSPACE or e.key == pygame.K_DELETE:
+            # clear selected item
             self.__board_model.clear
             # reset hints
             self.__left_panel.hints.hint = "everything is well"

@@ -1,10 +1,11 @@
 import pygame
 
 # local import
+from base.base import GUIBase
 from solver.solver import Solver
 
 
-class Board:
+class Board(GUIBase):
 
     """Screen Board
 
@@ -17,9 +18,8 @@ class Board:
     """
 
     def __init__(self, size: tuple, board: list, screen: pygame.Surface):
-        self.__size = (size[1], size[1], size[0] - size[1])
+        super().__init__((size[1], size[1], size[0] - size[1]), screen)
         self.__board = board
-        self.__screen = screen
         self.__solver = Solver(self, 0)
         # create squares list
         self.__squares = [
@@ -27,8 +27,8 @@ class Board:
                 Square(
                     self.__board[c][r],
                     (r, c),
-                    (self.__size[0], self.__size[2]),
-                    self.__screen,
+                    (self.size[0], self.size[2]),
+                    self.screen,
                     True if self.__board[c][r] == 0 else False,
                 )
                 for r in range(9)
@@ -77,8 +77,8 @@ class Board:
                 Square(
                     self.__board[c][r],
                     (r, c),
-                    (self.__size[0], self.__size[2]),
-                    self.__screen,
+                    (self.size[0], self.size[2]),
+                    self.screen,
                     True if self.__board[c][r] == 0 else False,
                 )
                 for r in range(9)
@@ -220,30 +220,30 @@ class Board:
                 self.__squares[c][r].draw()
         # Draw grid
         # set space between squares
-        space = self.__size[0] // 9
+        space = self.size[0] // 9
         # drow 10 lines HvV
         for r in range(10):
             # set line weight (bold at the end of 3*3 area)
             w = 4 if r % 3 == 0 and r != 0 else 1
             # draw horizontal line (screen, (color), (start_pos), (end_pos), width)
             pygame.draw.line(
-                self.__screen,
+                self.screen,
                 (72, 234, 54),
-                (self.__size[2], r * space),
-                (self.__size[0] + self.__size[2], r * space),
+                (self.size[2], r * space),
+                (self.size[0] + self.size[2], r * space),
                 w,
             )
             # draw vertical line (screen, (color), (start_pos), (end_pos), width)
             pygame.draw.line(
-                self.__screen,
+                self.screen,
                 (72, 234, 54),
-                (r * space + self.__size[2], 0),
-                (r * space + self.__size[2], self.__size[1]),
+                (r * space + self.size[2], 0),
+                (r * space + self.size[2], self.size[1]),
                 w,
             )
 
 
-class Square:
+class Square(GUIBase):
 
     """Board squeares
 
@@ -267,10 +267,10 @@ class Square:
         screen: pygame.Surface,
         changeable: bool,
     ):
+        super().__init__(0, screen)
         self.__value = value
         self.__pos = pos
         self.__widthpos = widthpos
-        self.__screen = screen
         self.__pencil = 0
         self.__selected = False
         self.__changeable = changeable
@@ -349,7 +349,7 @@ class Square:
         if not self.__changeable:
             sqsize = self.__widthpos[0] // 9
             # draw rectangle (frame)
-            pygame.draw.rect(self.__screen, (10, 30, 0), ((r, c), (sqsize, sqsize)))
+            pygame.draw.rect(self.screen, (10, 30, 0), ((r, c), (sqsize, sqsize)))
         # check for none 0's squares
         if self.__value != 0:
             font = pygame.font.SysFont("rubik", 38)
@@ -358,7 +358,7 @@ class Square:
             # create suface object
             v = font.render(str(self.__value), 1, rgb)
             # draw in on the screen
-            self.__screen.blit(
+            self.screen.blit(
                 v,
                 (
                     int(r + ((space / 2) - (v.get_width() / 2))),
@@ -370,7 +370,7 @@ class Square:
             # create suface object
             v = font.render(str(self.__pencil), 1, (2, 164, 0))
             # draw in on the screen
-            self.__screen.blit(
+            self.screen.blit(
                 v,
                 (
                     int(r + ((space / 2) - (v.get_width() / 2)) - 20),
@@ -380,4 +380,4 @@ class Square:
         # draw bold outline around selected square
         if self.__selected:
             # draw rectangle (frame)
-            pygame.draw.rect(self.__screen, (52, 214, 34), ((r, c), (space, space)), 3)
+            pygame.draw.rect(self.screen, (52, 214, 34), ((r, c), (space, space)), 3)

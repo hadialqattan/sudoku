@@ -1,13 +1,14 @@
 import pygame, time
 
 # local import
+from base.base import GUIBase
 from solver.parallel import Threads
 from generator.generator import Generator
 
 
-class LeftPanel:
+class LeftPanel(GUIBase):
 
-    """Left control panel 
+    """Left control panel
 
     :param solver: solver object
     :type solver: Solver
@@ -18,13 +19,12 @@ class LeftPanel:
     """
 
     def __init__(self, solver, size: tuple, screen: pygame.Surface):
-        self.__size = (size[0] - size[1], size[1])
-        self.__screen = screen
-        self.gamesystem = GameSystem(self.__size, self.__screen)
-        self.time = Time(self.__size, self.__screen)
-        self.hints = Hints(self.__size, self.__screen)
-        self.auto_solver = AutoSolver(solver, self.__size, self.__screen)
-        self.options = Options(solver, self.__size, self.__screen)
+        super().__init__((size[0] - size[1], size[1]), screen)
+        self.gamesystem = GameSystem(self.size, self.screen)
+        self.time = Time(self.size, self.screen)
+        self.hints = Hints(self.size, self.screen)
+        self.auto_solver = AutoSolver(solver, self.size, self.screen)
+        self.options = Options(solver, self.size, self.screen)
 
     def draw(self):
         """Draw the left panel on the screen"""
@@ -33,21 +33,16 @@ class LeftPanel:
         w = 3
         # draw rectangle (frame)
         pygame.draw.rect(
-            self.__screen, (72, 234, 54), ((0, 0), (self.__size[0], self.__size[1])), w
+            self.screen, (72, 234, 54), ((0, 0), (self.size[0], self.size[1])), w
         )
         # print(Sudoku at the top)
         pygame.draw.rect(
-            self.__screen,
+            self.screen,
             (72, 234, 54),
-            ((0, 0), (self.__size[0], self.__size[1] // 9)),
+            ((0, 0), (self.size[0], self.size[1] // 9)),
             w // 3,
         )
-        # create font object
-        font = pygame.font.SysFont("rubik", 42)
-        # create surface object
-        v = font.render("Sudoku", 1, (72, 234, 54))
-        # draw it on the screen
-        self.__screen.blit(v, (self.__size[0] // 4, 14))
+        self._type("Sudoku", (72, 234, 54), (self.size[0] // 4, 14), 42)
         # draw hint panel
         self.hints.draw()
         # draw auto solver control panel
@@ -60,7 +55,7 @@ class LeftPanel:
         self.options.draw()
 
 
-class GameSystem:
+class GameSystem(GUIBase):
 
     """GameSystem system class
     
@@ -71,8 +66,7 @@ class GameSystem:
     """
 
     def __init__(self, size: tuple, screen: pygame.Surface):
-        self.__size = (size[0], size[1] // 9)
-        self.__screen = screen
+        super().__init__((size[0], size[1] // 9), screen)
         self.__wrongs_counter = 0
         self.__lost = False
         self.__won = False
@@ -128,51 +122,37 @@ class GameSystem:
         w = 1
         # draw rectangle (frame)
         pygame.draw.rect(
-            self.__screen,
+            self.screen,
             (72, 234, 54),
-            ((0, self.__size[1] * 8), (self.__size[0], self.__size[1])),
+            ((0, self.size[1] * 8), (self.size[0], self.size[1])),
             w,
         )
         # draw wrongs
         # check if the player lost or won
         if self.__won:
-            self.__type(
+            self._type(
                 "You Won",
                 (72, 234, 54),
-                (self.__size[0] // 4 - 10, self.__size[1] * 8 + 15),
+                (self.size[0] // 4 - 10, self.size[1] * 8 + 15),
+                38,
             )
         elif not self.__lost:
-            self.__type(
+            self._type(
                 "X  " * self.__wrongs_counter,
                 (234, 72, 54),
-                (40, self.__size[1] * 8 + 15),
+                (40, self.size[1] * 8 + 15),
+                38,
             )
         else:
-            self.__type(
+            self._type(
                 "You Lost",
                 (234, 72, 54),
-                (self.__size[0] // 4 - 15, self.__size[1] * 8 + 15),
+                (self.size[0] // 4 - 15, self.size[1] * 8 + 15),
+                38,
             )
 
-    def __type(self, txt: str, rgb: tuple, pos: tuple):
-        """Draw string on the surface screen
 
-        :param txt: text to draw
-        :type txt: str
-        :param rgb: text color
-        :type rgb: tuple
-        :param pos: postition to draw
-        :type pos: tuple
-        """
-        # create font object
-        font = pygame.font.SysFont("rubik", 38)
-        # render font object with text
-        v = font.render(txt, 1, rgb)
-        # draw font obj on the surface
-        self.__screen.blit(v, pos)
-
-
-class Time:
+class Time(GUIBase):
 
     """Time managment class
     
@@ -183,8 +163,7 @@ class Time:
     """
 
     def __init__(self, size: tuple, screen: pygame.Surface):
-        self.__size = (size[0], size[1] // 9)
-        self.__screen = screen
+        super().__init__((size[0], size[1] // 9), screen)
         self.__init_time = time.time()
 
     @property
@@ -223,21 +202,22 @@ class Time:
         w = 1
         # draw rectangle (frame)
         pygame.draw.rect(
-            self.__screen,
+            self.screen,
             (72, 234, 54),
-            ((0, self.__size[1] * 7), (self.__size[0], self.__size[1])),
+            ((0, self.size[1] * 7), (self.size[0], self.size[1])),
             w,
         )
-        # create font object
-        font = pygame.font.SysFont("rubik", 32)
-        # render font object with formatted time
+        # draw time delata
         ftime = self.__time_formatter(time.time() - self.__init_time)
-        v = font.render(f"Time: {ftime}", 1, (72, 234, 54))
-        # draw font obj on the surface
-        self.__screen.blit(v, (self.__size[0] // 9 - 3, self.__size[1] * 7 + 21))
+        self._type(
+            f"Time: {ftime}",
+            (72, 234, 54),
+            (self.size[0] // 9 - 3, self.size[1] * 7 + 21),
+            32,
+        )
 
 
-class Hints:
+class Hints(GUIBase):
 
     """Hints system class
 
@@ -248,8 +228,7 @@ class Hints:
     """
 
     def __init__(self, size: tuple, screen: pygame.Surface):
-        self.__size = (size[0], size[1] // 9)
-        self.__screen = screen
+        super().__init__((size[0], size[1] // 9), screen)
         self.__hint = "everything is well"
 
     @property
@@ -273,20 +252,21 @@ class Hints:
         w = 1
         # draw rectangle (frame)
         pygame.draw.rect(
-            self.__screen,
+            self.screen,
             (72, 234, 54),
-            ((0, self.__size[1]), (self.__size[0], self.__size[1])),
+            ((0, self.size[1]), (self.size[0], self.size[1])),
             w,
         )
-        # create font object
-        font = pygame.font.SysFont("rubik", 24)
-        # render font object with hint
-        v = font.render(f"Hint: {self.__hint}", 1, (72, 234, 54))
-        # draw font obj on the surface
-        self.__screen.blit(v, (self.__size[0] // 9 - 18, self.__size[1] + 25))
+        # draw hint
+        self._type(
+            f"Hint: {self.__hint}",
+            (72, 234, 54),
+            (self.size[0] // 9 - 18, self.size[1] + 25),
+            24,
+        )
 
 
-class AutoSolver:
+class AutoSolver(GUIBase):
 
     """Auto solver control panel class
 
@@ -299,13 +279,13 @@ class AutoSolver:
     """
 
     def __init__(self, solver, size: tuple, screen: pygame.Surface):
-        self.__size = (size[0], size[1] // 9)
-        self.__screen = screen
+        super().__init__((size[0], size[1] // 9), screen)
         self.__threads = Threads()
         self.__solver = solver
-        controlsize = (self.__size[0] - self.__size[0] // 2 - 25, self.__size[1] // 2)
+        # create control buttons
+        controlsize = (self.size[0] - self.size[0] // 2 - 25, self.size[1] // 2)
         self.__buttons = [
-            Button(*i, controlsize, self.__screen)
+            Button(*i, controlsize, self.screen)
             for i in (
                 (self.pause, (), (-2, -2), "pause", 24, (20, 220)),
                 (self.resume, (), (-10, -2), "resume", 24, (145, 220)),
@@ -313,10 +293,11 @@ class AutoSolver:
                 (self.kill, (), (2.3, 0.9), "stop", 24, (145, 270)),
             )
         ]
-        delaysize = (self.__size[0] - self.__size[0] // 2 - 25, self.__size[1] // 4)
+        # create delay buttons
+        delaysize = (self.size[0] - self.size[0] // 2 - 25, self.size[1] // 4)
         self.__buttons.extend(
             [
-                Button(*i, delaysize, self.__screen)
+                Button(*i, delaysize, self.screen)
                 for i in (
                     (self.delay, (1000), (15, -1), "1.0", 16, (20, 345)),
                     (self.delay, (500), (15, -1), "0.5", 16, (20, 373)),
@@ -378,47 +359,28 @@ class AutoSolver:
         w = 1
         # draw rectangle (frame)
         pygame.draw.rect(
-            self.__screen,
+            self.screen,
             (72, 234, 54),
-            ((0, self.__size[1] * 2), (self.__size[0], self.__size[1] * 3)),
+            ((0, self.size[1] * 2), (self.size[0], self.size[1] * 3)),
             w,
         )
         # set panel title
-        self.__type(
+        self._type(
             "Sudoku solver",
             (72, 234, 54),
-            (self.__size[0] // 9 + 10, self.__size[1] * 2.15),
+            (self.size[0] // 9 + 10, self.size[1] * 2.15),
             30,
         )
         # set delay part title
-        self.__type(
-            "Delay (secs)", (72, 234, 54), (self.__size[0] // 3, self.__size[1] * 4), 18
+        self._type(
+            "Delay (secs)", (72, 234, 54), (self.size[0] // 3, self.size[1] * 4), 18
         )
         # draw buttons
         for b in self.__buttons:
             b.draw()
 
-    def __type(self, txt: str, rgb: tuple, pos: tuple, font_size: int):
-        """Draw string on the surface screen
 
-        :param txt: text to draw
-        :type txt: str
-        :param rgb: text color
-        :type rgb: tuple
-        :param pos: postition to draw (x, y)
-        :type pos: tuple
-        :param font_size: font size plx
-        :type font_size: int
-        """
-        # create font object
-        font = pygame.font.SysFont("rubik", font_size)
-        # render font object with text
-        v = font.render(txt, 1, rgb)
-        # draw font obj on the surface
-        self.__screen.blit(v, pos)
-
-
-class Options:
+class Options(GUIBase):
 
     """Options class 
 
@@ -431,13 +393,13 @@ class Options:
     """
 
     def __init__(self, solver, size: tuple, screen: pygame.Surface):
-        self.__size = (size[0], size[1] // 9)
-        self.__screen = screen
+        super().__init__((size[0], size[1] // 9), screen)
         self.__solver = solver
         self.__generator = Generator()
-        controlsize = (self.__size[0] - self.__size[0] // 2 - 25, self.__size[1] // 2)
+        # create control buttons
+        controlsize = (self.size[0] - self.size[0] // 2 - 25, self.size[1] // 2)
         self.__buttons = [
-            Button(*i, controlsize, self.__screen)
+            Button(*i, controlsize, self.screen)
             for i in (
                 (self.solve_all, (), (14.25, -1.8), "all", 24, (20, 450)),
                 (self.solve_selected, (), (-16, -1.8), "selected", 24, (145, 450)),
@@ -470,8 +432,6 @@ class Options:
         :param pos: square position
         :type pos: tuple
         """
-        # set solver delay time to 0
-        self.__solver.delay = 0
         # solve the board
         solution = self.__solver.solve(board)
         # if it's solvable set selected square value
@@ -509,18 +469,13 @@ class Options:
     def draw(self):
         """Draw auto solver rect"""
         # sovle txt
-        # create font object
-        font = pygame.font.SysFont("rubik", 22)
-        # render font object with text
-        v = font.render("solve", 1, (72, 234, 54))
-        # draw font obj on the surface
-        self.__screen.blit(v, (110, 420))
+        self._type("solve", (72, 234, 54), (110, 420), 22)
         # draw buttons
         for b in self.__buttons:
             b.draw()
 
 
-class Button:
+class Button(GUIBase):
 
     """Button class 
 
@@ -553,8 +508,7 @@ class Button:
         size: tuple,
         screen: pygame.Surface,
     ):
-        self.__size = size
-        self.__screen = screen
+        super().__init__(size, screen)
         self.__pos = pos
         self.__innertxt = innertxt
         self.__fontsize = fontsize
@@ -564,8 +518,8 @@ class Button:
         self.__w = 1
         self.__s = s
         self.__click_range = (
-            range(self.__pos[0], self.__pos[0] + self.__size[0] + 1),
-            range(self.__pos[1], self.__pos[1] + self.__size[1] + 1),
+            range(self.__pos[0], self.__pos[0] + self.size[0] + 1),
+            range(self.__pos[1], self.__pos[1] + self.size[1] + 1),
         )
 
     @property
@@ -606,18 +560,15 @@ class Button:
         # Draw main frame
         # draw rectangle (frame)
         pygame.draw.rect(
-            self.__screen, (72, 234, 54), (self.__pos, self.__size), self.__w,
+            self.screen, (72, 234, 54), (self.__pos, self.size), self.__w,
         )
         # set inner text
-        # create font object
-        font = pygame.font.SysFont("rubik", self.__fontsize)
-        # render font object with text
-        v = font.render(self.__innertxt, 1, (72, 234, 54))
-        # draw font obj on the surface
-        self.__screen.blit(
-            v,
+        self._type(
+            self.__innertxt,
+            (72, 234, 54),
             (
-                self.__pos[0] + self.__size[0] // 4 + self.__s[0],
-                self.__pos[1] + self.__size[1] // 8 + self.__s[1],
+                self.__pos[0] + self.size[0] // 4 + self.__s[0],
+                self.__pos[1] + self.size[1] // 8 + self.__s[1],
             ),
+            self.__fontsize,
         )
