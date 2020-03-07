@@ -352,7 +352,7 @@ class Square(GUIBase):
             pygame.draw.rect(self.screen, (10, 30, 0), ((r, c), (sqsize, sqsize)))
         # check for none 0's squares
         if self.__value != 0:
-            font = pygame.font.SysFont("rubik", 38)
+            font = pygame.font.Font("../assets/Rubik-font/Rubik-Regular.ttf", 38)
             # set color
             rgb = (72, 234, 54) if not self.__wrong else (234, 72, 54)
             # create suface object
@@ -366,7 +366,7 @@ class Square(GUIBase):
                 ),
             )
         elif self.__pencil != 0:
-            font = pygame.font.SysFont("rubik", 30)
+            font = pygame.font.Font("../assets/Rubik-font/Rubik-Regular.ttf", 30)
             # create suface object
             v = font.render(str(self.__pencil), 1, (2, 164, 0))
             # draw in on the screen

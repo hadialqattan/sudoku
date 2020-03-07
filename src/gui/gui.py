@@ -19,6 +19,8 @@ class GUI:
         # set main pygame screen size
         self.__screen_size = (1000, 720)
         self.__screen = pygame.display.set_mode(self.__screen_size[:2])
+        # change display icon
+        pygame.display.set_icon(pygame.image.load("../assets/icon.png"))
         self.__generator = Generator()
         self.__board = self.__generator.generate()
         # create board object
@@ -134,12 +136,16 @@ class GUI:
                     self.__left_panel.gamesystem.reset()
                     # reset time
                     self.__left_panel.time.init_time = time.time()
+                    # reset hint
+                    self.__left_panel.hints.hint = "everything is well"
                     s = b.click((self.__board_model,))
                 elif b.innertxt == "reset":
                     # reset won/lost/wrongs_counter
                     self.__left_panel.gamesystem.reset()
                     # reset time
                     self.__left_panel.time.init_time = time.time()
+                    # reset hint
+                    self.__left_panel.hints.hint = "everything is well"
                     s = b.click()
                 else:
                     s = b.click()

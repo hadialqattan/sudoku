@@ -42,7 +42,7 @@ class GUIBase:
         :type fsize: int
         """
         # create font object
-        font = pygame.font.SysFont("rubik", fsize)
+        font = pygame.font.Font("../assets/Rubik-font/Rubik-Regular.ttf", fsize)
         # render font object with text
         v = font.render(txt, 1, rgb)
         # draw font obj on the surface
