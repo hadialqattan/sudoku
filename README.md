@@ -13,8 +13,7 @@
 
 > GUI desktop [Sudoku game](https://en.wikipedia.org/wiki/Sudoku) using [pygame](https://www.pygame.org/wiki/GettingStarted) include [Sudoku solver](https://github.com/HadiZakiAlQattan/sudoku-solver/blob/master/src/solver/solver.py) and [random Sudoku board generator](https://github.com/HadiZakiAlQattan/sudoku-solver/blob/master/src/generator/generator.py).
 
-# Demo 🧮
-## **[Full demo](https://github.com/HadiZakiAlQattan/sudoku-solver/tree/master/docs/DEMO.md)**
+# Demo ([Full demo](https://github.com/HadiZakiAlQattan/sudoku-solver/tree/master/docs/DEMO.md)) 🧮
 
 ![Normal Playing](https://github.com/HadiZakiAlQattan/sudoku-solver/tree/master/docs/gif/normal.gif)
 
@@ -55,18 +54,18 @@
 
 * All tests :
   ``` shell
-  $ ./tests_runner.sh
+  $ pytest -v
   ```
 
 * Specific tests :
   + only solver tests :
     ``` shell
-    $ ./tests_runner.sh s
+    $ pytest -v test_01_solver.py
     ```
 
   + only generator tests :
     ```shell
-    $ ./tests_runner.sh g
+    $ pytest -v test_02_generator.py
     ```
 
 # Copyright ©
