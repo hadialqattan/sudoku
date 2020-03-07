@@ -20,7 +20,7 @@ class Board(GUIBase):
     def __init__(self, size: tuple, board: list, screen: pygame.Surface):
         super().__init__((size[1], size[1], size[0] - size[1]), screen)
         self.__board = board
-        self.__solver = Solver(self, 0)
+        self.__solver = Solver(self)
         # create squares list
         self.__squares = [
             [

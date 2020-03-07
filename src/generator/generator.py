@@ -1,7 +1,11 @@
 from random import randint
 
 # local import
-from solver.solver import Solver
+try:
+    from solver.solver import Solver
+except ImportError:
+    # for tests purposes
+    from src.solver.solver import Solver
 
 
 class Generator:
@@ -9,7 +13,7 @@ class Generator:
     """Random valid Sudoku board generator"""
 
     def __init__(self):
-        self.__solver = Solver(None, 0)
+        self.__solver = Solver()
 
     def generate(self) -> list:
         """Generate valid random Sudoku board

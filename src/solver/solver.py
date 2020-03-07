@@ -6,13 +6,13 @@ class Solver:
 
     """Sudoku game solver using backtracking algorithm
 
-    :param board: Sudoku Board class instance
+    :param board: Sudoku Board class instance (default None)
     :type board: Board
-    :param delay: delay time 1/1000 secs
+    :param delay: delay time 1/1000 secs (default 0.0)
     :type delay: float
     """
 
-    def __init__(self, board, delay: float):
+    def __init__(self, board=None, delay: float = 0.0):
         self.board = board
         self.__delay = delay / 1000
         self.__e = threading.Event()
