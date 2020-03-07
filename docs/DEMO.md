@@ -1,36 +1,47 @@
 # DEMO
 
-### Normal Playing
-![Normal Playing](https://github.com/HadiZakiAlQattan/sudoku-solver/tree/master/docs/gif/normal.gif)
+## Normal Playing
 
-### Wrong Detector
-![Wrong](https://github.com/HadiZakiAlQattan/sudoku-solver/tree/master/docs/gif/wrong.gif)
+![Normal Playing](https://raw.githubusercontent.com/HadiZakiAlQattan/sudoku/master/docs/gif/normal.gif?token=AMD2TWN6BWPF6ZE6JGR7C5C6MQI32)
 
-### Control Panel
-![Control Panel](https://github.com/HadiZakiAlQattan/sudoku-solver/tree/master/docs/gif/control_panel.gif)
+## Wrong Detector
 
-### Auto Solver Control
-![Auto Solver Control](https://github.com/HadiZakiAlQattan/sudoku-solver/tree/master/docs/gif/auto_solver_control.gif)
+![Wrong](https://raw.githubusercontent.com/HadiZakiAlQattan/sudoku/master/docs/gif/wrong.gif?token=AMD2TWJXODGYEPEMF32IN5C6MQI36)
 
-### Auto Solver Delay Control
-![Auto Solver Delay Control](https://github.com/HadiZakiAlQattan/sudoku-solver/tree/master/docs/gif/auto_solver_delay.gif)
+## Control Panel
+
+![Control Panel](https://raw.githubusercontent.com/HadiZakiAlQattan/sudoku/master/docs/gif/control_panel.gif?token=AMD2TWLI4TPNEC7IB2N7KJK6MQI3W)
+
+## Auto Solver Control
+
+![Auto Solver Control](https://raw.githubusercontent.com/HadiZakiAlQattan/sudoku/master/docs/gif/auto_solver_control.gif?token=AMD2TWLVMT23V4VTIYEGRJ26MQI3O)
+
+## Auto Solver Delay Control
+
+![Auto Solver Delay Control](https://raw.githubusercontent.com/HadiZakiAlQattan/sudoku/master/docs/gif/auto_solver_delay.gif?token=AMD2TWJUNI6RRBUBNHR67U26MQI3S)
 
 # SCREENSHOTS
 
-### Initial state
-![Init state](https://github.com/HadiZakiAlQattan/sudoku-solver/tree/master/docs/jpg/init.jpg)
+## Initial state
 
-### Wrong
-![Wrong](https://github.com/HadiZakiAlQattan/sudoku-solver/tree/master/docs/jpg/wrong.jpg)
+![Init state](https://raw.githubusercontent.com/HadiZakiAlQattan/sudoku/master/docs/jpg/init.jpg?token=AMD2TWNOPV3POIS7EF5VOMS6MQJE4)
 
-### Maximum Wrongs (5)
-![Maximum Wrongs](https://github.com/HadiZakiAlQattan/sudoku-solver/tree/master/docs/jpg/max_wrongs.jpg)
+## Wrong
 
-### Unsolvable Board State
-![Unsolvable Board State](https://github.com/HadiZakiAlQattan/sudoku-solver/tree/master/docs/jpg/unsolvable.jpg)
+![Wrong](https://raw.githubusercontent.com/HadiZakiAlQattan/sudoku/master/docs/jpg/wrong.jpg?token=AMD2TWLZNIC7UZONDDOEGVS6MQJFS)
 
-### Won
-![Won](https://github.com/HadiZakiAlQattan/sudoku-solver/tree/master/docs/jpg/won.jpg)
+## Maximum Wrongs (5)
 
-### Lost
-![Lost](https://github.com/HadiZakiAlQattan/sudoku-solver/tree/master/docs/jpg/lost.jpg)
+![Maximum Wrongs](https://raw.githubusercontent.com/HadiZakiAlQattan/sudoku/master/docs/jpg/max_wrongs.jpg?token=AMD2TWKYXDMVZQBDBP4UTG26MQJFE)
+
+## Unsolvable Board State
+
+![Unsolvable Board State](https://raw.githubusercontent.com/HadiZakiAlQattan/sudoku/master/docs/jpg/unsolvable.jpg?token=AMD2TWOVF4CU22HFZGQ2GIC6MQJFK)
+
+## Won
+
+![Won](https://raw.githubusercontent.com/HadiZakiAlQattan/sudoku/master/docs/jpg/won.jpg?token=AMD2TWKAL3BAYWGSZCCLWVC6MQJFO)
+
+## Lost
+
+![Lost](https://raw.githubusercontent.com/HadiZakiAlQattan/sudoku/master/docs/jpg/lost.jpg?token=AMD2TWMVEIC6R4X5RVB73N26MQJFA)
