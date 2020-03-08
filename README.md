@@ -21,19 +21,19 @@
 
 # Usage 🗝
 ### There's two way to use this project: 
-* Without any prerequisites : 
+* Without any prerequisites: 
   + download whole [executable directory](https://github.com/HadiZakiAlQattan/sudoku/tree/master/executable)
   + run [executable/exe/sudoku.exe](https://github.com/HadiZakiAlQattan/sudoku/tree/master/executable/exe/sudoku.exe)
 
-* With prerequisites : 
+* With prerequisites: 
   + clone this repo : 
     ```shell 
     $ git clone https://github.com/HadiZakiAlQattan/sudoku.git
     ```
-  + [install prerequisites](#prerequisites%20🔩)
-  + Run src/main.py : 
+  + [install prerequisites](#Prerequisites%20🔩)
+  + Run run.sh : 
     ```shell
-    $ python3 main.py
+    $ ./run.sh
     ```
 
 # Prerequisites 🔩
@@ -54,18 +54,18 @@
 
 * All tests :
   ``` shell
-  $ pytest -v
+  $ pytest -v tests/
   ```
 
 * Specific tests :
   + only solver tests :
     ``` shell
-    $ pytest -v test_01_solver.py
+    $ pytest -v tests/test_01_solver.py
     ```
 
   + only generator tests :
     ```shell
-    $ pytest -v test_02_generator.py
+    $ pytest -v tests/test_02_generator.py
     ```
 
 # Copyright ©

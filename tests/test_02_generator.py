@@ -18,12 +18,12 @@ class Test_Generator(unittest.TestCase):
         """Test Generator.generate function"""
         # generate new board
         b = self.g.generate()
-        # check if unempty squares between 40%(32) and 60%(48)
+        # check if unempty squares between 40%(32) and 60%(48) + random one
         counter = 0
         for r in b:
             for c in r:
                 if c != 0:
                     counter += 1
-        assert 32 <= counter <= 48
+        assert 32 <= counter <= 49
         # check if it solveable
         assert self.s.solve(b) == True
