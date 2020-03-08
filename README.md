@@ -15,9 +15,9 @@
 
 # Demo ([Full demo](https://github.com/HadiZakiAlQattan/sudoku/tree/master/docs/DEMO.md)) 🧮
 
-![Normal Playing](https://raw.githubusercontent.com/HadiZakiAlQattan/sudoku/master/docs/gif/normal.gif?token=AMD2TWN6BWPF6ZE6JGR7C5C6MQI32)
+![Won](https://github.com/HadiZakiAlQattan/sudoku/blob/master/docs/gif/won.gif?raw=true)
 
-![Wrong](https://raw.githubusercontent.com/HadiZakiAlQattan/sudoku/master/docs/gif/wrong.gif?token=AMD2TWJXODGYEPEMF32IN5C6MQI36)
+![Lost](https://github.com/HadiZakiAlQattan/sudoku/blob/master/docs/gif/lost.gif?raw=true)
 
 # Usage 🗝
 ### There's two way to use this project: 

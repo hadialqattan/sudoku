@@ -2,7 +2,7 @@
 
 ## Normal Playing
 
-![Normal Playing](https://raw.githubusercontent.com/HadiZakiAlQattan/sudoku/master/docs/gif/normal.gif?token=AMD2TWN6BWPF6ZE6JGR7C5C6MQI32)
+![Normal Playing](https://github.com/HadiZakiAlQattan/sudoku/blob/master/docs/gif/normal.gif?raw=true)
 
 ## Wrong Detector
 
