@@ -11,7 +11,7 @@
   </a>
 </p>
 
-> GUI desktop [Sudoku game](https://en.wikipedia.org/wiki/Sudoku) using [pygame](https://www.pygame.org/wiki/GettingStarted) include [Sudoku solver](https://github.com/HadiZakiAlQattan/sudoku/blob/master/src/solver/solver.py) and [random Sudoku board generator](https://github.com/HadiZakiAlQattan/sudoku/blob/master/src/generator/generator.py).
+> GUI desktop [Sudoku game](https://en.wikipedia.org/wiki/Sudoku) using [pygame](https://www.pygame.org/wiki/GettingStarted). (include [Sudoku solver](https://github.com/HadiZakiAlQattan/sudoku/blob/master/src/solver/solver.py) and [random Sudoku board generator](https://github.com/HadiZakiAlQattan/sudoku/blob/master/src/generator/generator.py))
 
 # Demo ([Full demo](https://github.com/HadiZakiAlQattan/sudoku/tree/master/docs/DEMO.md)) 🧮
 
