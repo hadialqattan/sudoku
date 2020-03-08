@@ -9,7 +9,7 @@
 
 ![Set Square Value](https://github.com/HadiZakiAlQattan/sudoku/blob/master/docs/gif/set_success.gif?raw=true)
 
-## Set square value (wrongs detecrot)
+## Set square value (wrongs detector)
 
 > if you made a mistake :
 - > you'll **gain a wrong** 
