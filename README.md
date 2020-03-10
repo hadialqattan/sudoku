@@ -15,7 +15,15 @@
 
 # Demo ([Full demo](https://github.com/HadiZakiAlQattan/sudoku/tree/master/docs/DEMO.md)) 🧮
 
+automatic solver
+
+![start button](https://github.com/HadiZakiAlQattan/sudoku/blob/master/docs/gif/start.gif?raw=true)
+
+win 
+
 ![Won](https://github.com/HadiZakiAlQattan/sudoku/blob/master/docs/gif/won.gif?raw=true)
+
+lose
 
 ![Lost](https://github.com/HadiZakiAlQattan/sudoku/blob/master/docs/gif/lost.gif?raw=true)
 
