@@ -1,4 +1,4 @@
-from threading import Thread, ThreadError, Event
+from threading import Thread, ThreadError
 
 
 class Threads:
