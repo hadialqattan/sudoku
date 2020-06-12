@@ -1,8 +1,10 @@
 <h1 align="center">Welcome to Sudoku game 👋</h1>
 <p>
+  <a href="https://www.codacy.com/manual/HadiZakiAlQattan/sudoku?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=hadizakialqattan/sudoku&amp;utm_campaign=Badge_Grade"><img alt="Python version: 3.x" src="https://app.codacy.com/project/badge/Grade/07a9c48a23bf41fdb278590209b04967">
+  </a>
   <a href="https://www.python.org/"><img alt="Python version: 3.x" src="https://img.shields.io/badge/python-python%203.x-blue.svg">
   </a>
-  <a href="https://github.com/HadiZakiAlQattan/sudoku/blob/master/LICENSE" target="_blank">  
+  <a href="https://github.com/hadizakialqattan/sudoku/blob/master/LICENSE" target="_blank">  
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
   </a>
   <a href="https://docutils.sourceforge.io/rst.html"><img alt="Docstrings: reStructuredText" src="https://img.shields.io/badge/docstrings-reStructuredText-gree.svg">
@@ -11,32 +13,32 @@
   </a>
 </p>
 
-> GUI desktop [Sudoku game](https://en.wikipedia.org/wiki/Sudoku) using [pygame](https://www.pygame.org/wiki/GettingStarted). (include [Sudoku solver](https://github.com/HadiZakiAlQattan/sudoku/blob/master/src/solver/solver.py) and [random Sudoku board generator](https://github.com/HadiZakiAlQattan/sudoku/blob/master/src/generator/generator.py))
+> GUI desktop [Sudoku game](https://en.wikipedia.org/wiki/Sudoku) using [pygame](https://www.pygame.org/wiki/GettingStarted). (include [Sudoku solver](https://github.com/hadizakialqattan/sudoku/blob/master/src/solver/solver.py) and [random Sudoku board generator](https://github.com/hadizakialqattan/sudoku/blob/master/src/generator/generator.py))
 
-# Demo ([Full demo](https://github.com/HadiZakiAlQattan/sudoku/tree/master/docs/DEMO.md)) 🧮
+# Demo ([Full demo](https://github.com/hadizakialqattan/sudoku/tree/master/docs/DEMO.md)) 🧮
 
 automatic solver
 
-![start button](https://github.com/HadiZakiAlQattan/sudoku/blob/master/docs/gif/start.gif?raw=true)
+![start button](https://github.com/hadizakialqattan/sudoku/blob/master/docs/gif/start.gif?raw=true)
 
 win 
 
-![Won](https://github.com/HadiZakiAlQattan/sudoku/blob/master/docs/gif/won.gif?raw=true)
+![Won](https://github.com/hadizakialqattan/sudoku/blob/master/docs/gif/won.gif?raw=true)
 
 lose
 
-![Lost](https://github.com/HadiZakiAlQattan/sudoku/blob/master/docs/gif/lost.gif?raw=true)
+![Lost](https://github.com/hadizakialqattan/sudoku/blob/master/docs/gif/lost.gif?raw=true)
 
 # Usage 🗝
 ### There's two way to use this project: 
 * Without any prerequisites: 
-  + download whole [executable directory](https://github.com/HadiZakiAlQattan/sudoku/tree/master/executable)
-  + run [executable/exe/sudoku.exe](https://github.com/HadiZakiAlQattan/sudoku/tree/master/executable/exe/sudoku.exe)
+  + download whole [executable directory](https://github.com/hadizakialqattan/sudoku/tree/master/executable)
+  + run [executable/exe/sudoku.exe](https://github.com/hadizakialqattan/sudoku/tree/master/executable/exe/sudoku.exe)
 
 * With prerequisites: 
   + clone this repo : 
     ```shell 
-    $ git clone https://github.com/HadiZakiAlQattan/sudoku.git
+    $ git clone https://github.com/hadizakialqattan/sudoku.git
     ```
   + [install prerequisites](#Prerequisites%20🔩)
   + Run run.sh : 
@@ -47,16 +49,16 @@ lose
 # Prerequisites 🔩
 
 * [Python 3.x](https://www.python.org/downloads/)
-* Python libraries from [requirements.txt](https://github.com/HadiZakiAlQattan/sudoku/blob/master/requirements.txt)
+* Python libraries from [requirements.txt](https://github.com/hadizakialqattan/sudoku/blob/master/requirements.txt)
   ```shell 
   $ sudo pip3 install -r requirements.txt
   ```
 
 # Tests 🧪
 
-### Unit tests @ [tests directory](https://github.com/HadiZakiAlQattan/sudoku/tree/master/tests) include tests only for :
-* [src.solver.sovler.Solver](https://github.com/HadiZakiAlQattan/sudoku/blob/master/src/solver/solver.py) class (not include auto_solver function) @ [tests/test_01_solver.py](https://github.com/HadiZakiAlQattan/sudoku/blob/master/tests/test_01_solver.py) using [tests/IO.py](https://github.com/HadiZakiAlQattan/sudoku/blob/master/tests/IO.py) data.
-* [src.generator.generator.Generator](https://github.com/HadiZakiAlQattan/sudoku/blob/master/src/generator/generator.py) class @ [tests/test_02_generator.py](https://github.com/HadiZakiAlQattan/sudoku/blob/master/tests/test_02_generator.py).
+### Unit tests @ [tests directory](https://github.com/hadizakialqattan/sudoku/tree/master/tests) include tests only for :
+* [src.solver.sovler.Solver](https://github.com/hadizakialqattan/sudoku/blob/master/src/solver/solver.py) class (not include auto_solver function) @ [tests/test_01_solver.py](https://github.com/hadizakialqattan/sudoku/blob/master/tests/test_01_solver.py) using [tests/IO.py](https://github.com/hadizakialqattan/sudoku/blob/master/tests/IO.py) data.
+* [src.generator.generator.Generator](https://github.com/hadizakialqattan/sudoku/blob/master/src/generator/generator.py) class @ [tests/test_02_generator.py](https://github.com/hadizakialqattan/sudoku/blob/master/tests/test_02_generator.py).
 
 ### Run instructions:
 
@@ -78,15 +80,15 @@ lose
 
 # Copyright ©
 
-👤 **Hadi Zaki AlQattan**
+👤 **Hadi Zaki Alqattan**
 
-* Github: [@HadiZakiAlQattan](https://github.com/HadiZakiAlQattan)
+* Github: [@hadizakialqattan](https://github.com/hadizakialqattan)
 * Email: [alqattanhadizaki@gmail.com]()
 
 📝 **License**
 
-Copyright © 2020 [Hadi Zaki AlQattan](https://github.com/HadiZakiAlQattan).<br />
-This project is [MIT](https://github.com/HadiZakiAlQattan/sudoku/blob/master/LICENSE) licensed.
+Copyright © 2020 [Hadi Zaki Alqattan](https://github.com/hadizakialqattan).<br />
+This project is [MIT](https://github.com/hadizakialqattan/sudoku/blob/master/LICENSE) licensed.
 
 ***
 Give a ⭐️ if this project helped you!
