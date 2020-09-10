@@ -15,7 +15,7 @@ class LeftPanel(GUIBase):
     :param size: screen size (width height)
     :type size: tuple
     :param screen: pygame screen
-    :type screen: pygame.Surface 
+    :type screen: pygame.Surface
     """
 
     def __init__(self, solver, size: tuple, screen: pygame.Surface):
@@ -58,11 +58,11 @@ class LeftPanel(GUIBase):
 class GameSystem(GUIBase):
 
     """GameSystem system class
-    
+
     :param size: screen size (width height)
     :type size: tuple
     :param screen: pygame screen
-    :type screen: pygame.Surface 
+    :type screen: pygame.Surface
     """
 
     def __init__(self, size: tuple, screen: pygame.Surface):
@@ -94,7 +94,7 @@ class GameSystem(GUIBase):
 
     @lost.setter
     def lost(self, value: bool):
-        """lost property (setter) 
+        """lost property (setter)
 
         :param value: lost value
         :type value: bool
@@ -155,11 +155,11 @@ class GameSystem(GUIBase):
 class Time(GUIBase):
 
     """Time managment class
-    
+
     :param size: screen size (width height)
     :type size: tuple
     :param screen: pygame screen
-    :type screen: pygame.Surface 
+    :type screen: pygame.Surface
     """
 
     def __init__(self, size: tuple, screen: pygame.Surface):
@@ -174,7 +174,7 @@ class Time(GUIBase):
     @init_time.setter
     def init_time(self, value: time.time):
         """init time property (setter)
-        
+
         :param value: init time value
         :type value: time.time
         """
@@ -183,7 +183,7 @@ class Time(GUIBase):
     def __time_formatter(self, delta: float) -> str:
         """convert float secounds to HH:MM:SS str format
 
-        :param delta: deffirent between init time and current time 
+        :param delta: deffirent between init time and current time
         :type delta: float
         :returns: HH:MM:SS time format
         "rtype: str
@@ -224,7 +224,7 @@ class Hints(GUIBase):
     :param size: screen size (width height)
     :type size: tuple
     :param screen: pygame screen
-    :type screen: pygame.Surface 
+    :type screen: pygame.Surface
     """
 
     def __init__(self, size: tuple, screen: pygame.Surface):
@@ -275,7 +275,7 @@ class AutoSolver(GUIBase):
     :param size: screen size (width height)
     :type size: tuple
     :param screen: pygame screen
-    :type screen: pygame.Surface 
+    :type screen: pygame.Surface
     """
 
     def __init__(self, solver, size: tuple, screen: pygame.Surface):
@@ -382,14 +382,14 @@ class AutoSolver(GUIBase):
 
 class Options(GUIBase):
 
-    """Options class 
+    """Options class
 
     :param solver: solver object
     :type solver: Solver
     :param size: screen size (width height)
     :type size: tuple
     :param screen: pygame screen
-    :type screen: pygame.Surface 
+    :type screen: pygame.Surface
     """
 
     def __init__(self, solver, size: tuple, screen: pygame.Surface):
@@ -415,7 +415,7 @@ class Options(GUIBase):
 
     def solve_all(self) -> bool:
         """Solve entire board
-        
+
         :returns: solvability
         :rtype: bool
         """
@@ -426,7 +426,7 @@ class Options(GUIBase):
 
     def solve_selected(self, board: list, pos: tuple):
         """Solve selected square
-        
+
         :param board: sudoku board to solve
         :type board: list
         :param pos: square position
@@ -442,7 +442,7 @@ class Options(GUIBase):
 
     def generate(self, board: list) -> bool:
         """Generate new board
-        
+
         :param board: sudoku board
         :type board: list
         """
@@ -477,7 +477,7 @@ class Options(GUIBase):
 
 class Button(GUIBase):
 
-    """Button class 
+    """Button class
 
     :param target: target funtion to start onclicked
     :type target: function
@@ -494,7 +494,7 @@ class Button(GUIBase):
     :param size: screen size (width height)
     :type size: tuple
     :param screen: pygame screen
-    :type screen: pygame.Surface 
+    :type screen: pygame.Surface
     """
 
     def __init__(
@@ -540,7 +540,7 @@ class Button(GUIBase):
 
     def click(self, args: tuple = ()):
         """Handle click event
-        
+
         :param args: target function args if the args isn't constant
         :type args: tuple
         """
@@ -560,7 +560,10 @@ class Button(GUIBase):
         # Draw main frame
         # draw rectangle (frame)
         pygame.draw.rect(
-            self.screen, (72, 234, 54), (self.__pos, self.size), self.__w,
+            self.screen,
+            (72, 234, 54),
+            (self.__pos, self.size),
+            self.__w,
         )
         # set inner text
         self._type(

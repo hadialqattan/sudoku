@@ -27,7 +27,7 @@ class Solver:
     @delay.setter
     def delay(self, delay: float):
         """delay property (setter)
-        
+
         :param delay: delay time 1/1000 secs
         :type delay: float
         """
@@ -41,7 +41,7 @@ class Solver:
     @e.setter
     def e(self, set: bool):
         """e property (setter)
-        
+
         :param set: set of not
         :type set: bool
         """
@@ -135,7 +135,7 @@ class Solver:
         :param board: Sudoku board represent as two dimensional array
         :type board: list
         :returns: next unused position or empty if there's no next
-        :rtype: tuple 
+        :rtype: tuple
         """
         # iterate over each row
         for r in range(9):
@@ -148,8 +148,8 @@ class Solver:
         return ()
 
     def exists(self, board: list, n: int, rc: tuple) -> tuple:
-        """Sudoku game rules checker 
-        
+        """Sudoku game rules checker
+
         :param board: Sudoku board represent as two dimensional array
         :type board: list
         :param n: integer number as solution

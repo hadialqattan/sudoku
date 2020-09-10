@@ -14,7 +14,7 @@ class Board(GUIBase):
     :param size: screen dimensions (pixels) (width, height)
     :type size: tuple
     :param screen: pygame screen
-    :type screen: pygame.Surface 
+    :type screen: pygame.Surface
     """
 
     def __init__(self, size: tuple, board: list, screen: pygame.Surface):
@@ -65,7 +65,7 @@ class Board(GUIBase):
     @board.setter
     def board(self, board: list):
         """board property (setter) & update squares
-        
+
         :param board: Sudoku board represent as two dimensional array
         :type board: list
         """
@@ -94,7 +94,7 @@ class Board(GUIBase):
     @selected.setter
     def selected(self, pos: tuple):
         """selected property (setter) & refresh squares
-        
+
         :param pos: selected square position (row, column)
         :type pos: tuple
         """
@@ -119,7 +119,7 @@ class Board(GUIBase):
 
     def set_pencil(self, value: int):
         """set pencil value
-        
+
         :param value: pencil value
         :type value: int
         """
@@ -136,7 +136,7 @@ class Board(GUIBase):
         return self.__squares[r][c].value
 
     def set_value(self) -> str:
-        """set square value 
+        """set square value
 
         :returns: board state ('s' -> success, 'w' -> wrong, 'c' -> unsolvable board)
         :rtype: str
@@ -193,7 +193,7 @@ class Board(GUIBase):
     @property
     def isfinished(self):
         """return true if there's no more empty squares else false
-        
+
         :returns: true if there's no more empty squares else false
         :rtype: bool
         """
@@ -201,7 +201,7 @@ class Board(GUIBase):
 
     def set_sq_value(self, value: int, pos: tuple):
         """change square value by position
-        
+
         :param value: new square value
         :type value: int
         :param pos: square position
@@ -254,7 +254,7 @@ class Square(GUIBase):
     :param width: screen width and left gap (width, gap)
     :type width: tuple
     :param screen: pygame screen
-    :type screen: pygame.Surface 
+    :type screen: pygame.Surface
     :param changeable: changeabllity
     :type changeable: bool
     """

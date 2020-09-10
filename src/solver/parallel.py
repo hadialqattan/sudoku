@@ -9,8 +9,8 @@ class Threads:
         self.__threads = []
 
     def start(self, func, _args_: list = []) -> bool:
-        """Create new thread and start it 
-        
+        """Create new thread and start it
+
         :param function: target function to start
         :type func: function
         :param _args_: func arguments (default => [])
@@ -37,7 +37,7 @@ class Threads:
 
     def stop(self) -> bool:
         """Stop all threads on the list
-        
+
         :returns: True if threads is stopped else False:
         :rtype: bool
         """

@@ -8,7 +8,7 @@ class GUIBase:
     :param size: screen size (width height)
     :type size: tuple
     :param screen: pygame screen
-    :type screen: pygame.Surface 
+    :type screen: pygame.Surface
     """
 
     def __init__(self, size: tuple, screen: pygame.Surface):
